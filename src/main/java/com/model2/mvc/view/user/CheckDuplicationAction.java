@@ -18,6 +18,7 @@ public class CheckDuplicationAction extends Action{
 		UserService service=new UserServiceImpl();
 		boolean result=service.checkDuplication(userId);
 		
+		// TODO Q.참조값이 변경되지 않기 위해서 새로 인스턴스를 생성해서 세션에 추가?
 		request.setAttribute("result",new Boolean(result) );
 		request.setAttribute("userId", userId);
 		

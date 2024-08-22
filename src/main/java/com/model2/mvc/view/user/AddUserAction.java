@@ -16,13 +16,14 @@ public class AddUserAction extends Action {
 												HttpServletResponse response) throws Exception {
 		UserVO userVO=new UserVO();
 		userVO.setUserId(request.getParameter("userId"));
-		userVO.setPassword(request.getParameter("password"));
 		userVO.setUserName(request.getParameter("userName"));
+		userVO.setPassword(request.getParameter("password"));
+		// role default= user
 		userVO.setSsn(request.getParameter("ssn"));
-		
-		userVO.setAddr(request.getParameter("addr"));
 		userVO.setPhone(request.getParameter("phone"));
+		userVO.setAddr(request.getParameter("addr"));
 		userVO.setEmail(request.getParameter("email"));
+		// regDate default= SYSDATE
 		
 		System.out.println(userVO);
 		

@@ -12,16 +12,16 @@ public class ProductVO {
 	private String prodName;
 	private int prodNo;
 	private Date regDate;
-	private String proTranCode;
+	private String TranCode;
 	
 	public ProductVO(){
 	}
 	
 	public String getProTranCode() {
-		return proTranCode;
+		return TranCode;
 	}
 	public void setProTranCode(String proTranCode) {
-		this.proTranCode = proTranCode;
+		this.TranCode = proTranCode;
 	}
 	public String getFileName() {
 		return fileName;

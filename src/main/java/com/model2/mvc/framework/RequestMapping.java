@@ -24,7 +24,7 @@ public class RequestMapping {
 			throw new RuntimeException("actionmapping.properties 파일 로딩 실패 :"  + ex);
 		}finally{
 			if(in != null){
-				try{ in.close(); } catch(Exception ex){}
+				try{ in.close(); } catch(Exception ex){ ex.printStackTrace(); }
 			}
 		}
 	}
@@ -40,24 +40,32 @@ public class RequestMapping {
 		Action action = map.get(path);
 		if(action == null){
 			String className = properties.getProperty(path);
+			
+			/* 디버깅용 코드 */
 			System.out.println("prop : " + properties);
 			System.out.println("path : " + path);			
 			System.out.println("className : " + className);
+			
 			className = className.trim();
+			
 			try{
 				Class c = Class.forName(className);
 				Object obj = c.newInstance();
+				
 				if(obj instanceof Action){
 					map.put(path, (Action)obj);
 					action = (Action)obj;
+					
 				}else{
 					throw new ClassCastException("Class형변환시 오류 발생  ");
+					
 				}
 			}catch(Exception ex){
 				System.out.println(ex);
 				throw new RuntimeException("Action정보를 구하는 도중 오류 발생 : " + ex);
 			}
 		}
+		
 		return action;
 	}
 }

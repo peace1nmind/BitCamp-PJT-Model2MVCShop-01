@@ -10,7 +10,8 @@ import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
 
-
+// TODO	Q.request 파라미터 값은 어디서 오는가?
+//		A.listUser.jsp에서 보냄
 public class ListUserAction extends Action {
 
 	@Override

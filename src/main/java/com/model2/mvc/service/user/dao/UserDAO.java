@@ -11,6 +11,8 @@ import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.service.user.vo.UserVO;
 
 
+// 유저들이 Dao에서 하는 일을 모듈화
+// INSERT, SELECT, UPDATE
 public class UserDAO {
 	
 	public UserDAO(){
@@ -26,10 +28,12 @@ public class UserDAO {
 		stmt.setString(1, userVO.getUserId());
 		stmt.setString(2, userVO.getUserName());
 		stmt.setString(3, userVO.getPassword());
+		// role default= user
 		stmt.setString(4, userVO.getSsn());
 		stmt.setString(5, userVO.getPhone());
 		stmt.setString(6, userVO.getAddr());
 		stmt.setString(7, userVO.getEmail());
+		// regDate default= SYSDATE
 		stmt.executeUpdate();
 		
 		con.close();

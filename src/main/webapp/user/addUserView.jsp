@@ -94,6 +94,7 @@ function fncCheckDuplication() {
 
 function resetData() {
 	document.detailForm.reset();
+	document.detailForm.userId.focus();
 }
 -->
 </script>

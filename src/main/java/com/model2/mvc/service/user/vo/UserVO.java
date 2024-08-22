@@ -5,15 +5,15 @@ import java.sql.Date;
 
 public class UserVO {
 	
-	private String userId;
-	private String userName;
-	private String password;
-	private String role;
+	private String userId;			// PK
+	private String userName;		// NN
+	private String password;		// NN
+	private String role;			// DEFAULT= user
 	private String ssn;
 	private String phone;
 	private String addr;
 	private String email;
-	private Date regDate;
+	private Date regDate;			// DEFAULT= SYSDATE
 	
 	public UserVO(){
 	}

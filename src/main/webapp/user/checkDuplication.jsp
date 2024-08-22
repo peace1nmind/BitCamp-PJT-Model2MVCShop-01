@@ -15,6 +15,11 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
+<%--
+	TODO 
+	1. 아이디 중복검사 누르면 기존 써있던 내용 들어오게하기
+	2. 중복검사후 커서가 아이디 뒤로 가게하기 
+--%>
 <!--
 window.onload = function(){
 	document.getElementById("userId").focus();

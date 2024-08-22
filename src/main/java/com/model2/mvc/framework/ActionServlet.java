@@ -28,6 +28,8 @@ public class ActionServlet extends HttpServlet {
 		String url = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String path = url.substring(contextPath.length());
+		
+		/* 디버깅용 코드 */
 		System.out.println(path);
 		
 		try{
@@ -37,10 +39,13 @@ public class ActionServlet extends HttpServlet {
 			String resultPage=action.execute(request, response);
 			String result=resultPage.substring(resultPage.indexOf(":")+1);
 			
-			if(resultPage.startsWith("forward:"))
+			if(resultPage.startsWith("forward:")) {
 				HttpUtil.forward(request, response, result);
-			else
+				
+			} else {
 				HttpUtil.redirect(response, result);
+				
+			}
 			
 		}catch(Exception ex){
 			ex.printStackTrace();

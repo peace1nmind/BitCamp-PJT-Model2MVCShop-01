@@ -8,44 +8,45 @@ import com.model2.mvc.service.user.vo.UserVO;
 
 public class PurchaseVO {
 	
-	private UserVO buyer;
-	private String divyAddr;
-	private String divyDate;
-	private String divyRequest;
-	private Date orderDate;
+	private int tranNo;					// PK	
+	private UserVO buyer;				// NN
+	private ProductVO purchaseProd;		// NN
 	private String paymentOption;
-	private ProductVO purchaseProd;
 	private String receiverName;
 	private String receiverPhone;
+	private String dlvyAddr;
+	private String dlvyRequest;
 	private String tranCode;
-	private int tranNo;
+	private Date orderDate;
+	private String dlvyDate;
+	
 	
 	public PurchaseVO(){
 	}
 	
-	public UserVO getBuyer() {
+	public UserVO getbuyer() {
 		return buyer;
 	}
-	public void setBuyer(UserVO buyer) {
+	public void setbuyer(UserVO buyer) {
 		this.buyer = buyer;
 	}
-	public String getDivyAddr() {
-		return divyAddr;
+	public String getdlvyAddr() {
+		return dlvyAddr;
 	}
-	public void setDivyAddr(String divyAddr) {
-		this.divyAddr = divyAddr;
+	public void setdlvyAddr(String dlvyAddr) {
+		this.dlvyAddr = dlvyAddr;
 	}
-	public String getDivyDate() {
-		return divyDate;
+	public String getdlvyDate() {
+		return dlvyDate;
 	}
-	public void setDivyDate(String divyDate) {
-		this.divyDate = divyDate;
+	public void setdlvyDate(String dlvyDate) {
+		this.dlvyDate = dlvyDate;
 	}
-	public String getDivyRequest() {
-		return divyRequest;
+	public String getdlvyRequest() {
+		return dlvyRequest;
 	}
-	public void setDivyRequest(String divyRequest) {
-		this.divyRequest = divyRequest;
+	public void setdlvyRequest(String dlvyRequest) {
+		this.dlvyRequest = dlvyRequest;
 	}
 	public Date getOrderDate() {
 		return orderDate;
@@ -92,8 +93,8 @@ public class PurchaseVO {
 	
 	@Override
 	public String toString() {
-		return "PurchaseVO [buyer=" + buyer + ", divyAddr=" + divyAddr
-				+ ", divyDate=" + divyDate + ", divyRequest=" + divyRequest
+		return "PurchaseVO [buyer=" + buyer + ", dlvyAddr=" + dlvyAddr
+				+ ", dlvyDate=" + dlvyDate + ", dlvyRequest=" + dlvyRequest
 				+ ", orderDate=" + orderDate + ", paymentOption="
 				+ paymentOption + ", purchaseProd=" + purchaseProd
 				+ ", receiverName=" + receiverName + ", receiverPhone="
