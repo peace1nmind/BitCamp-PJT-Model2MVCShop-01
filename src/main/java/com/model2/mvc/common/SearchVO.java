@@ -3,7 +3,8 @@ package com.model2.mvc.common;
 
 public class SearchVO {
 	
-	private int page;
+	// ** page dafault °ª º¯°æ page; ¡æ page = 1;
+	private int page = 1;
 	String searchCondition;
 	String searchKeyword;
 	int pageUnit;
@@ -36,5 +37,12 @@ public class SearchVO {
 	}
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
+	}
+	
+	@Override
+	public String toString() {
+		
+		return String.format("SearchVO: [page= %d, searchCondition= %s, searchKeyword= %s, pageUnit= %d]",
+												page, searchCondition, searchKeyword, pageUnit);
 	}
 }

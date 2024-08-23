@@ -15,8 +15,7 @@ public interface ProductService {
 	
 	public ProductVO getProdut(int prodNo);
 	
-	// TODO Key와 Value의 데이터 타입 설정
-	public HashMap getProductList(SearchVO searchVO);
+	public HashMap<String, Object> getProductList(SearchVO searchVO);
 	
 	public ProductVO updateProduct(ProductVO productVO);
 	

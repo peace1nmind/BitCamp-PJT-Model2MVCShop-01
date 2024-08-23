@@ -19,7 +19,7 @@
 	
 	int totalPage=0;
 	if(total > 0) {
-		totalPage= total / searchVO.getPageUnit() ;
+		totalPage= total / searchVO.getPageUnit();
 		if(total%searchVO.getPageUnit() >0)
 			totalPage += 1;
 	}
@@ -139,7 +139,7 @@ function fncGetUserList(){
 			UserVO vo = (UserVO)list.get(i);
 	%>
 	<tr class="ct_list_pop">
-		<td align="center"><%=no--%></td>
+		<td align="center"><%= no-- %></td>
 		<td></td>
 		<td align="left">
 			<a href="/getUser.do?userId=<%=vo.getUserId() %>"><%= vo.getUserId() %></a>

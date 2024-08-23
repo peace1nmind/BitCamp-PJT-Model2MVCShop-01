@@ -5,23 +5,23 @@ import java.sql.Date;
 
 public class ProductVO {
 	
-	private String fileName;
+	private int prodNo;
+	private String prodName;
+	private String prodDetail;
 	private String manuDate;
 	private int price;
-	private String prodDetail;
-	private String prodName;
-	private int prodNo;
+	private String fileName;		// 상품 이미지 파일이름
 	private Date regDate;
-	private String TranCode;
+	private String proTranCode = "판매중";		// 상품 상태코드 판매중, 배송중  
 	
 	public ProductVO(){
 	}
 	
 	public String getProTranCode() {
-		return TranCode;
+		return proTranCode;
 	}
 	public void setProTranCode(String proTranCode) {
-		this.TranCode = proTranCode;
+		this.proTranCode = proTranCode;
 	}
 	public String getFileName() {
 		return fileName;
@@ -68,8 +68,8 @@ public class ProductVO {
 
 	// Override
 	public String toString() {
-		return "ProductVO : [fileName]" + fileName
-				+ "[manuDate]" + manuDate+ "[price]" + price + "[prodDetail]" + prodDetail
-				+ "[prodName]" + prodName + "[prodNo]" + prodNo;
+		return "ProductVO : [fileName] " + fileName
+				+ " [manuDate] " + manuDate+ " [price] " + price + " [prodDetail] " + prodDetail
+				+ " [prodName] " + prodName + " [prodNo] " + prodNo;
 	}	
 }

@@ -16,6 +16,7 @@ import com.model2.mvc.service.user.vo.UserVO;
 public class UserDAO {
 	
 	public UserDAO(){
+		System.out.println("\ncom.model2.mvc.service.user.dao.UserDAO");
 	}
 
 	public void insertUser(UserVO userVO) throws Exception {

@@ -11,15 +11,24 @@ public class DBUtil {
 	private final static String JDBC_URL = "jdbc:oracle:thin:scott/tiger@localhost:1521:xe";
 
 	public static Connection getConnection() {
+		
 		Connection conn = null;
+		
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(JDBC_URL);
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return conn;
 	}
+	
+	
+	
+//	public static
 }

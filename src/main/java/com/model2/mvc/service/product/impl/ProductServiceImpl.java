@@ -15,6 +15,7 @@ public class ProductServiceImpl implements ProductService {
 
 	// Constructor
 	public ProductServiceImpl() {
+		System.out.println("\ncom.modle2.mvc.service.product.impl.ProductServiceImpl");
 		productDAO = new ProductDAO();
 	}
 	
@@ -33,8 +34,9 @@ public class ProductServiceImpl implements ProductService {
 	
 	// 상품목록 조회를 위한 BL
 	@Override
-	public HashMap getProductList(SearchVO searchVO) {
-		return null;
+	public HashMap<String, Object> getProductList(SearchVO searchVO) {
+		
+		return productDAO.getProductList(searchVO);
 	}
 	
 	// 상품정보 수정을 위한 BL
