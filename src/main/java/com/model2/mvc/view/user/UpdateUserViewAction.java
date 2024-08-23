@@ -18,8 +18,8 @@ public class UpdateUserViewAction extends Action{
 	public String execute(	HttpServletRequest request,
 												HttpServletResponse response) throws Exception {
 		
-		HttpSession session = request.getSession();
-		UserVO user = (UserVO) session.getAttribute("user");
+//		HttpSession session = request.getSession();
+//		UserVO user = (UserVO) session.getAttribute("user");
 		
 		String userId=request.getParameter("userId");
 		

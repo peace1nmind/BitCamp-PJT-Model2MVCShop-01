@@ -18,6 +18,8 @@ public class GetUserAction extends Action{
 	public String execute(	HttpServletRequest request,
 												HttpServletResponse response) throws Exception {
 		
+		/*
+		
 		// 로그인한 유저
 		HttpSession session = request.getSession();
 		UserVO user = (UserVO) session.getAttribute("user");
@@ -29,18 +31,15 @@ public class GetUserAction extends Action{
 		}
 		
 		// TODO 로그인 상태 OK에 대한 방어 추가 필요
-	
+		
+		*/
+		
 		String userId=request.getParameter("userId");
 		
-		
-		
-		
-		
-		
 		UserService service=new UserServiceImpl();
-		UserVO vo=service.getUser(userId);
+		UserVO userVO=service.getUser(userId);
 		
-		request.setAttribute("vo", vo);
+		request.setAttribute("userVO", userVO);
 
 		return "forward:/user/readUser.jsp";
 	}

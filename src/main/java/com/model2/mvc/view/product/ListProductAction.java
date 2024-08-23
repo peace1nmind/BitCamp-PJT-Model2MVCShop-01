@@ -9,8 +9,11 @@ import com.model2.mvc.framework.Action;
 public class ListProductAction extends Action {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) 
-			throws Exception {
+	public String execute(	HttpServletRequest request, HttpServletResponse response) 
+							throws Exception {
+		
+		
+		
 		
 		return null;
 	}

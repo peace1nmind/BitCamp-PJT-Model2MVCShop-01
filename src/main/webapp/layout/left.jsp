@@ -2,13 +2,14 @@
 
 <%@ page import="com.model2.mvc.service.user.vo.*" %>
 
-<%
-	UserVO vo=(UserVO)session.getAttribute("user");
-
+<%	
+	// ** UserVO vo 를 user로 바꿨음
+	UserVO user=(UserVO)session.getAttribute("user");
+	
 	String role="";
 
-	if(vo != null) {
-		role=vo.getRole();
+	if(user != null) {
+		role=user.getRole();
 	}
 %>
 
@@ -35,11 +36,11 @@ function history(){
 	<table  border="0" cellspacing="0" cellpadding="0" width="159" >	
 		<tr>
 		<%
-			if(vo != null){
+			if(user != null){
 		%>
 		<tr>
 		<td class="Depth03">
-			<a href="/getUser.do?userId=<%=vo.getUserId() %>" target="rightFrame">개인정보조회</a>
+			<a href="/getUser.do?userId=<%=user.getUserId() %>" target="rightFrame">개인정보조회</a>
 		</td>
 		</tr>
 		<%
@@ -99,7 +100,7 @@ function history(){
 			</td>
 		</tr>
 		<%
-			if(vo != null){
+			if(user != null){
 				if(role.equals("user")){
 		%>
 		<tr>

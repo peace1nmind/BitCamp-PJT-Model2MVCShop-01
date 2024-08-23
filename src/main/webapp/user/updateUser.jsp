@@ -3,7 +3,7 @@
 <%@ page import="com.model2.mvc.service.user.vo.*" %>
 
 <%
-	UserVO vo=(UserVO)request.getAttribute("userVO");
+	UserVO userVO=(UserVO)request.getAttribute("userVO");
 %>
 
 <html>
@@ -54,7 +54,7 @@ function resetData() {
 
 <form name="detailForm"  method="post" >
 
-<input type="hidden" name="userId" value="<%=vo.getUserId() %>">
+<input type="hidden" name="userId" value="<%=userVO.getUserId() %>">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -85,7 +85,7 @@ function resetData() {
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105"><%=vo.getUserId() %></td>
+					<td width="105"><%=userVO.getUserId() %></td>
 					<td>	</td>
 				</tr>
 			</table>
@@ -101,7 +101,7 @@ function resetData() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="userName" value="<%=vo.getUserName() %>" class="ct_input_g" 
+			<input type="text" name="userName" value="<%=userVO.getUserName() %>" class="ct_input_g" 
 						style="width:100px; height:19px"  maxLength="50" >
 		</td>
 	</tr>
@@ -113,7 +113,7 @@ function resetData() {
 		<td width="104" class="ct_write">주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="addr" value="<%=vo.getAddr() %>" class="ct_input_g" 
+			<input 	type="text" name="addr" value="<%=userVO.getAddr() %>" class="ct_input_g" 
 							style="width:370px; height:19px"  maxLength="100">
 		</td>
 	</tr>
@@ -126,21 +126,23 @@ function resetData() {
 		<td class="ct_write01">
 			<select 	name="phone1" class="ct_input_g" style="width:50px" 
 							onChange="document.detailForm.phone2.focus();">
-				<option value="010" >010</option>
-				<option value="011" >011</option>
-				<option value="016" >016</option>
-				<option value="018" >018</option>
-				<option value="019" >019</option>
+				<%-- 옵션 값 선택되게 설정 필요 --%>
+				<%-- <%= ((userVO.getPhone().split("-")[0]).equals("010"))? "selected" : "" %> --%>
+				<option value="010">010</option>
+				<option value="011">011</option>
+				<option value="016">016</option>
+				<option value="018">018</option>
+				<option value="019">019</option>
 			</select>
 			<input type="text" name="phone2"
-						<%if (vo.getPhone() != null) {%> 
-							value="<%=vo.getPhone().split("-")[1] %>"
+						<%if (userVO.getPhone() != null) {%> 
+							value="<%=userVO.getPhone().split("-")[1] %>"
 						<%} %> 
 						class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
 			- 
 			<input type="text" name="phone3" 
-						<%if (vo.getPhone() != null) {%> 
-							value="<%=vo.getPhone().split("-")[2] %>"
+						<%if (userVO.getPhone() != null) {%> 
+							value="<%=userVO.getPhone().split("-")[2] %>"
 						<%} %> 
 						class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
 			<input type="hidden" name="phone" class="ct_input_g"  >
@@ -157,7 +159,7 @@ function resetData() {
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td height="26">
-						<input 	type="text" name="email" value="<%=vo.getEmail() %>" class="ct_input_g" 
+						<input 	type="text" name="email" value="<%=userVO.getEmail() %>" class="ct_input_g" 
 										style="width:100px; height:19px" onChange="check_email(this.form);">
 					</td>
 				</tr>

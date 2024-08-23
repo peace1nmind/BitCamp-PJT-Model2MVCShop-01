@@ -15,8 +15,8 @@ import com.model2.mvc.service.user.impl.UserServiceImpl;
 public class ListUserAction extends Action {
 
 	@Override
-	public String execute(	HttpServletRequest request,
-												HttpServletResponse response) throws Exception {
+	public String execute(HttpServletRequest request,HttpServletResponse response) 
+							throws Exception {
 		SearchVO searchVO=new SearchVO();
 		
 		int page=1;

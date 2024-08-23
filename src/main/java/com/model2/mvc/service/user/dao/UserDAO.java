@@ -73,35 +73,42 @@ public class UserDAO {
 		
 		Connection con = DBUtil.getConnection();
 		
-		String sql = "select * from USERS ";
+		String sql = "SELECT * FROM users ";
 		if (searchVO.getSearchCondition() != null) {
+			
+			// listUser.jsp에서 회원아이디로 검색할 경우
 			if (searchVO.getSearchCondition().equals("0")) {
-				sql += " where USER_ID='" + searchVO.getSearchKeyword()
+				sql += " WHERE user_id='" + searchVO.getSearchKeyword()
 						+ "'";
+				
+			// listUser.jsp에서 회원이름으로 검색할 경우
 			} else if (searchVO.getSearchCondition().equals("1")) {
-				sql += " where USER_NAME='" + searchVO.getSearchKeyword()
+				sql += " WHERE user_name='" + searchVO.getSearchKeyword()
 						+ "'";
 			}
 		}
-		sql += " order by USER_ID";
+		sql += " ORDER BY user_id";
 
-		PreparedStatement stmt = 
-			con.prepareStatement(	sql,
+		PreparedStatement stmt = con.prepareStatement(	sql,
 														ResultSet.TYPE_SCROLL_INSENSITIVE,
 														ResultSet.CONCUR_UPDATABLE);
 		ResultSet rs = stmt.executeQuery();
-
+		
+		// 검색된 모든 레코드의 개수
 		rs.last();
 		int total = rs.getRow();
 		System.out.println("로우의 수:" + total);
-
+		
+		// map에 "count"값 추가 : 전체 레코드의 수
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("count", new Integer(total));
-
-		rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit()+1);
+		
+		// 커서를 page, pageUnit을 이용하여 해당 페이지에 보여줘야할 유저의 첫번째 레코드로 이동
+		rs.absolute((searchVO.getPage() -1 ) * searchVO.getPageUnit() +1);
 		System.out.println("searchVO.getPage():" + searchVO.getPage());
 		System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
-
+		
+		// 페이지에 해당하는 UserVO를 담을 ArrayList
 		ArrayList<UserVO> list = new ArrayList<UserVO>();
 		if (total > 0) {
 			for (int i = 0; i < searchVO.getPageUnit(); i++) {
@@ -117,14 +124,20 @@ public class UserDAO {
 				vo.setRegDate(rs.getDate("REG_DATE"));
 
 				list.add(vo);
+				
 				if (!rs.next())
 					break;
 			}
 		}
+		
 		System.out.println("list.size() : "+ list.size());
+		// 페이지에 해당하는 UserVO들을 map에 ArrayList타입으로 넣음
 		map.put("list", list);
 		System.out.println("map().size() : "+ map.size());
-
+		
+		// DB 닫기
+		rs.close();
+		stmt.close();
 		con.close();
 			
 		return map;
