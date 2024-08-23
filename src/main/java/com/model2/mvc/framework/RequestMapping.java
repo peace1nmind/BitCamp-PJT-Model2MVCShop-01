@@ -15,16 +15,20 @@ public class RequestMapping {
 	private RequestMapping(String resources) {
 		map = new HashMap<String, Action>();
 		InputStream in = null;
+		
 		try{
 			in = getClass().getClassLoader().getResourceAsStream(resources);
 			properties = new Properties();
 			properties.load(in);
+			
 		}catch(Exception ex){
 			System.out.println(ex);
 			throw new RuntimeException("actionmapping.properties 파일 로딩 실패 :"  + ex);
+			
 		}finally{
 			if(in != null){
-				try{ in.close(); } catch(Exception ex){ ex.printStackTrace(); }
+				try{ in.close(); } 
+				catch(Exception ex){ ex.printStackTrace(); }
 			}
 		}
 	}
@@ -38,6 +42,7 @@ public class RequestMapping {
 	
 	public Action getAction(String path){
 		Action action = map.get(path);
+		
 		if(action == null){
 			String className = properties.getProperty(path);
 			
@@ -52,6 +57,7 @@ public class RequestMapping {
 				Class c = Class.forName(className);
 				Object obj = c.newInstance();
 				
+				// obj가 Action인지 확인
 				if(obj instanceof Action){
 					map.put(path, (Action)obj);
 					action = (Action)obj;
@@ -60,9 +66,11 @@ public class RequestMapping {
 					throw new ClassCastException("Class형변환시 오류 발생  ");
 					
 				}
+				
 			}catch(Exception ex){
 				System.out.println(ex);
 				throw new RuntimeException("Action정보를 구하는 도중 오류 발생 : " + ex);
+				
 			}
 		}
 		

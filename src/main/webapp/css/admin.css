@@ -13,7 +13,7 @@ A:link    {font-size: 9pt; COLOR: #58595B; text-decoration: none; font-family: "
 a:visited {font-size: 9pt; color: #58595B; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²"}
 a:active  {font-size: 9pt; color: #58595B; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²"}
 a:hover   {font-size: 9pt; color: #000000; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²"}
-a:clicked   {font-size: 9pt; color: #000000; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²"}
+a:clicked   {font-size: 9pt; color: #000000; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²"; }
 
 
 
@@ -40,7 +40,7 @@ a:clicked   {font-size: 9pt; color: #000000; text-decoration: none; font-family:
             
 
 /*ÆùÆ®Ä®¶ó */
-.ct_name     {font-size: 10.5pt; COLOR: #104A93; font-weight:bold; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²"; letter-spacing:-1;}
+tr.ct_name     {font-size: 10.5pt; COLOR: #104A93; font-weight:bold; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²"; letter-spacing:-1;}
 .ct_ttl      {font-size: 9pt; COLOR: #104A93; font-weight:bold; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²"; letter-spacing:-1;}
 .ct_village  {font-size: 9pt; COLOR: #427DC6; font-weight:bold; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²"; letter-spacing:-1;}
 .ct_date     {font-size: 9pt; COLOR: #295D8C; text-decoration: none; font-family: "µ¸¿ò", "±¼¸²";}

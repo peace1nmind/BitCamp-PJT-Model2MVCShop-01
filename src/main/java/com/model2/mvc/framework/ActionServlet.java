@@ -23,7 +23,7 @@ public class ActionServlet extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) 
-																									throws ServletException, IOException {
+							throws ServletException, IOException {
 		
 		String url = request.getRequestURI();
 		String contextPath = request.getContextPath();
