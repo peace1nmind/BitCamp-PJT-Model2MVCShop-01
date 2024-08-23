@@ -29,7 +29,8 @@ public class ProductServiceImpl implements ProductService {
 	// 상품정보 조회를 위한 BL 
 	@Override
 	public ProductVO getProdut(int prodNo) {
-		return null;
+		
+		return productDAO.findProduct(prodNo);
 	}
 	
 	// 상품목록 조회를 위한 BL

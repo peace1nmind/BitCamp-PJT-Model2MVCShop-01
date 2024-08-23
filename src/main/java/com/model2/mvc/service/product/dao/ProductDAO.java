@@ -4,6 +4,7 @@ package com.model2.mvc.service.product.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.dao.AbstractDAO;
 import com.model2.mvc.service.product.vo.ProductVO;
 
+// TODO productVO.proTranCode에 대한 설정고려 (DB에 넣을지, B/L에서만 다룰지)
 public class ProductDAO extends AbstractDAO {
 
 	// Field
@@ -28,14 +30,47 @@ public class ProductDAO extends AbstractDAO {
 	public ProductVO findProduct(int prodNo) {
 		
 		System.out.println("\new ProductDAO().findProduct(prodNo)");
+		System.out.println("\tprodNo= "+prodNo);
 		
 		Connection con = connect();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		ProductVO productVO = new ProductVO();
 		
 		String sql = "SELECT * FROM product WHERE prod_no = ?";
+		System.out.println("\tSQL= "+sql);
 		
-		return null;
+		try {
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, prodNo);
+			
+			rs = stmt.executeQuery();
+			System.out.println("stmt.executeQuery()");
+			
+			rs.next();
+			productVO.setProdNo(prodNo);
+			productVO.setProdName(rs.getString("prod_name"));
+			productVO.setProdDetail(rs.getString("prod_detail"));
+			productVO.setManuDate(rs.getString("manufacture_day"));
+			productVO.setPrice(rs.getInt("price"));
+			productVO.setFileName(rs.getString("image_file"));
+			productVO.setRegDate(rs.getDate("reg_date"));
+//			productVO.setProTranCode("판매중");
+			
+			System.out.println(productVO);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e2) {
+			e2.printStackTrace();
+			
+		} finally {
+			close(con, stmt, rs);
+			
+		}
+		
+		return productVO;
 	}
 	
 	// 상품목록 조회를 위한 DBMS
