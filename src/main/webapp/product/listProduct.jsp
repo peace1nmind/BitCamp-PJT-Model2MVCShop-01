@@ -1,3 +1,4 @@
+<%@page import="javax.swing.event.SwingPropertyChangeSupport"%>
 <%@page import="java.util.List"%>
 <%@page import="com.model2.mvc.service.product.vo.ProductVO"%>
 <%@page import="java.util.ArrayList"%>
@@ -6,7 +7,29 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
     
-<%
+<%	
+	System.out.println("\n:: listProduct.jsp");
+
+	String menu = request.getParameter("menu");
+	System.out.println("\tmenu= "+menu);
+	
+	if (menu == null) {
+		menu = "";
+	}
+	
+	String title = (menu.equals("search"))? "상품 목록조회" : "상품관리";
+	String navi = "getProduct.do";
+	
+	switch (menu) {
+	case "search":
+		
+		break;
+	
+	case "manage":
+		navi = "updateProductView.do";
+		break;
+	}
+
 	HashMap<String, Object> map = (HashMap<String, Object>) request.getAttribute("map");
 	
 	// ListProductAction에서 SearchVO를 만들어서 보내기때문에 무조건 null이 아님
@@ -42,7 +65,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>상품 목록조회</title>
+		<title><%= title %></title>
 		
 		<link rel="stylesheet" href="/css/admin.css" type="text/css">
 		
@@ -71,7 +94,7 @@
 								<tr>
 									<td width="93%" class="ct_ttl01">
 									
-											상품 목록조회
+											<%= title %>
 									
 									</td>
 								</tr>
@@ -150,7 +173,7 @@
 						<td align="center"> <%= no-- %></td>
 						<td></td>
 								
-						<td align="left"><a href="/getProduct.do?prodNo=<%= productVO.getProdNo() %>&menu=search">
+						<td align="left"><a href="/<%= navi %>?prodNo=<%= productVO.getProdNo() %>&menu=<%= menu %>">
 							<%= productVO.getProdName() %>
 						</a></td>
 						

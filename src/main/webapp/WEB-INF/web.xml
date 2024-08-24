@@ -29,6 +29,8 @@
 			<param-name>resources</param-name>
 			<param-value>com/model2/mvc/resources/actionmapping.properties</param-value>
 		</init-param>
+		
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
 	<servlet-mapping>

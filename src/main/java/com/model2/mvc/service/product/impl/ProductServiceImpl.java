@@ -23,7 +23,13 @@ public class ProductServiceImpl implements ProductService {
 	// 상품 등록을 위한 BL
 	@Override
 	public ProductVO addProduct(ProductVO productVO) {
-		return null;		
+		
+		productDAO.insertProduct(productVO);
+		System.out.println("\t"+productVO+"\n\tDB 등록완료");
+		ProductVO prodVO = productDAO.findProduct();
+		System.out.println("\tDB 내용= "+prodVO);
+		
+		return prodVO;		
 	}
 	
 	// 상품정보 조회를 위한 BL 
@@ -43,7 +49,13 @@ public class ProductServiceImpl implements ProductService {
 	// 상품정보 수정을 위한 BL
 	@Override
 	public ProductVO updateProduct(ProductVO productVO) {
-		return null;
+		
+		productDAO.updateProduct(productVO);
+		System.out.println("\tDB 수정완료");
+		ProductVO prodVO = productDAO.findProduct(productVO.getProdNo());
+		System.out.println("\tDB 내용= "+prodVO);
+		
+		return prodVO;
 	}
 
 }

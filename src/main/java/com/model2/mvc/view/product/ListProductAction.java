@@ -19,6 +19,9 @@ public class ListProductAction extends Action {
 		
 		System.out.println("\tnew ListProductAction().execute(request, response)");
 		
+//		String menu = request.getParameter("menu");
+//		System.out.println(menu);
+
 		SearchVO searchVO = new SearchVO();
 		
 //		int page = 1;

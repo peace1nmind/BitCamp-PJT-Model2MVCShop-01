@@ -16,14 +16,33 @@ public class GetProductAction extends Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
 		
+		System.out.println("\n>> GetProductAction");
+		
+		String menu = request.getParameter("menu");
 		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
+		
+		System.out.println(String.format("\tprodNo= %d & menu= %s", prodNo, menu));
 		
 		ProductService service = new ProductServiceImpl();
 		ProductVO productVO = service.getProdut(prodNo);
 		
 		request.setAttribute("productVO", productVO);
 		
-		return "forward:/product/getProduct.jsp";
+		if (menu == null) {
+			menu = "";
+		}
+		
+		switch (menu) {
+		case "search":
+			return "forward:/product/getProduct.jsp";
+			
+		case "manage" :
+			return "forward:/product/updateProductView.jsp";
+
+		default:
+			return "forward:/product/getProduct.jsp";
+		}
+		
 	}
 }
 // class end

@@ -19,6 +19,10 @@ public class ActionServlet extends HttpServlet {
 		super.init();
 		String resources=getServletConfig().getInitParameter("resources");
 		mapper=RequestMapping.getInstance(resources);
+		
+		System.out.println("\n\n=========================");
+		System.out.println("\tServer ON");
+		System.out.println("=========================\n\n");
 	}
 
 	@Override

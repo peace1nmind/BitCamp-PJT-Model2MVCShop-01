@@ -20,7 +20,7 @@ CREATE TABLE users (
 	cell_phone	VARCHAR2(14),
 	addr 				VARCHAR2(100),
 	email 				VARCHAR2(50),
-	reg_date 		DATE,
+	reg_date 		DATE		DEFAULT SYSDATE,
 	PRIMARY KEY(user_id)
 );
 
@@ -43,7 +43,7 @@ CREATE TABLE transaction (
 	payment_option		CHAR(3),
 	receiver_name 		VARCHAR2(20),
 	receiver_phone		VARCHAR2(14),
-	demailaddr 				VARCHAR2(100),
+	dlvy_addr 				VARCHAR2(100),
 	dlvy_request 			VARCHAR2(100),
 	tran_status_code	CHAR(3),
 	order_data 				DATE,

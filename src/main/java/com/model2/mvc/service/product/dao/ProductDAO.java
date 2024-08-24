@@ -29,7 +29,7 @@ public class ProductDAO extends AbstractDAO {
 	// 상품정보 조회를 위한 DBMS
 	public ProductVO findProduct(int prodNo) {
 		
-		System.out.println("\new ProductDAO().findProduct(prodNo)");
+		System.out.println("\tnew ProductDAO().findProduct(prodNo)");
 		System.out.println("\tprodNo= "+prodNo);
 		
 		Connection con = connect();
@@ -45,10 +45,64 @@ public class ProductDAO extends AbstractDAO {
 			stmt.setInt(1, prodNo);
 			
 			rs = stmt.executeQuery();
-			System.out.println("stmt.executeQuery()");
+			System.out.println("\tstmt.executeQuery()");
 			
-			rs.next();
-			productVO.setProdNo(prodNo);
+			if (rs.next()) {
+				productVO.setProdNo(prodNo);
+				productVO.setProdName(rs.getString("prod_name"));
+				productVO.setProdDetail(rs.getString("prod_detail"));
+				productVO.setManuDate(rs.getString("manufacture_day"));
+				productVO.setPrice(rs.getInt("price"));
+				productVO.setFileName(rs.getString("image_file"));
+				productVO.setRegDate(rs.getDate("reg_date"));
+	//			productVO.setProTranCode("판매중");
+				
+				System.out.println(productVO);
+				
+			} else {
+				System.out.println("\tprodNo= "+prodNo+" 인 상품은 등록되어있지 않습니다.");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e2) {
+			e2.printStackTrace();
+			
+		} finally {
+			close(con, stmt, rs);
+			
+		}
+		
+		return productVO;
+	}
+	
+	// 최근 등록된 상품정보 조회를 위한 DBMS
+	public ProductVO findProduct() {
+		
+		System.out.println("\tnew ProductDAO().findProduct()");
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ProductVO productVO = new ProductVO();
+		
+		String sql = "SELECT * FROM product ORDER BY prod_no";
+		System.out.println("\tSQL= "+sql);
+		
+		try {
+			stmt = con.prepareStatement(sql, 
+										ResultSet.TYPE_SCROLL_INSENSITIVE,
+										ResultSet.CONCUR_UPDATABLE);
+			
+			rs = stmt.executeQuery();
+			System.out.println("\tstmt.executeQuery()");
+			
+			rs.last();
+			int lastRow = rs.getRow();
+			rs.absolute(lastRow);
+			productVO.setProdNo(rs.getInt("prod_no"));
 			productVO.setProdName(rs.getString("prod_name"));
 			productVO.setProdDetail(rs.getString("prod_detail"));
 			productVO.setManuDate(rs.getString("manufacture_day"));
@@ -57,7 +111,7 @@ public class ProductDAO extends AbstractDAO {
 			productVO.setRegDate(rs.getDate("reg_date"));
 //			productVO.setProTranCode("판매중");
 			
-			System.out.println(productVO);
+			System.out.println("\t최근 등록내용= "+productVO);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -177,10 +231,97 @@ public class ProductDAO extends AbstractDAO {
 	// 상품등록을 위한 DBMS
 	public void insertProduct(ProductVO productVO) {
 		
+		System.out.println("\tnew ProductVO().insertProduct(productVO)");
+		System.out.println("\t"+productVO);
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		int rs = -1;
+		
+		String sql = "INSERT INTO product VALUES(seq_product_prod_no.NEXTVAL, ?, ?, ?, ?, ?, SYSDATE)";
+		System.out.println("\tSQL= "+sql);
+		
+		try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, productVO.getProdName());
+			stmt.setString(2, productVO.getProdDetail());
+			stmt.setString(3, productVO.getManuDate());
+			stmt.setInt(4, productVO.getPrice());
+			stmt.setString(5, productVO.getFileName());
+//			stmt.setString(5, "이미지준비중.jpg");
+			
+			rs = stmt.executeUpdate();
+			System.out.println("\tstmt.executeUpdate()");
+			
+			if (rs > 0) {
+				System.out.println("\t"+rs+" 행이 추가됐습니다.");
+				
+			} else {
+				System.out.println("\tDB에 정보 추가를 실패했습니다.");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(con, stmt);
+			
+		}
+		
 	}
 	
 	// 상품정보 수정을 위한 DBMS
 	public void updateProduct(ProductVO productVO) {
+		
+		System.out.println("\tnew ProductDAO().updateProduct(productVO)");
+		System.out.println(productVO);
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		int rs = -1;
+		
+		String sql = "UPDATE FROM product SET prod_name=?, "
+											+ "prod_detal=?, "
+											+ "manufacture_day=?, "
+											+ "price=?, "
+											+ "image_file=? "
+					+ "WHERE prod_no=?";
+		
+		try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, productVO.getProdName());
+			stmt.setString(2, productVO.getProdDetail());
+			stmt.setString(3, productVO.getManuDate());
+			stmt.setInt(4, productVO.getPrice());
+			stmt.setString(5, productVO.getFileName());
+			stmt.setInt(6, productVO.getProdNo());
+			
+			System.out.println("\tSQL= "+sql);
+			rs = stmt.executeUpdate();
+			System.out.println("\tstmt.executeUpdate()");
+			
+			if (rs > 0) {
+				System.out.println("\t"+rs+" 행이 수정되었습니다.");
+				
+			} else {
+				System.out.println("\t수정 실패하였습니다.");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(con, stmt);;
+			
+		}
 		
 	}
 

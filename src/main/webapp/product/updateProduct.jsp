@@ -1,28 +1,29 @@
-<%@page import="com.model2.mvc.service.user.vo.UserVO"%>
 <%@page import="com.model2.mvc.service.product.vo.ProductVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-    
- <%
- 	System.out.println("\n::getProduct.jsp");
- 
- 	ProductVO productVO = (ProductVO) request.getAttribute("productVO");
- 	System.out.println("\tproductVO= "+productVO);
- 	
- 	UserVO user = (UserVO) session.getAttribute("user");
- 	System.out.println("\tuser= "+user);
- 	
- 	String menu = request.getParameter("menu");
- 	System.out.println("\tmenu= "+menu);
- %>
-    
+
+<%
+	System.out.println("\n:: updateProduct.jsp");
+
+	ProductVO productVO = (ProductVO) request.getAttribute("productVO");
+	System.out.println("\t"+productVO);
+	
+	if (productVO == null) {
+		productVO = new ProductVO();
+	}
+	
+%>
+
 <!DOCTYPE html>
-<html>
+
+<html
+>
 	<head>
 	
-		<title>상품상세조회</title>
+		<title>updateProduct.jsp</title>
+		
 		<link rel="stylesheet" href="/css/admin.css" type="text/css">
-	
+		
 	</head>
 	
 	<body bgcolor="#ffffff" text="#000000">
@@ -82,11 +83,13 @@
 					</td>
 					<td bgcolor="D6D6D6" width="1"></td>
 					<td class="ct_write01">
-				<% if (productVO.getFileName()!=null) { %>
+					
+				<%	if (productVO.getFileName() != null) { %>
 						<img src = "/images/uploadFiles/<%= productVO.getFileName() %>"/>
 				<%	} else { %>
 						&nbsp;
-				<%	} %> 
+				<%	} %>
+				
 					</td>
 				</tr>
 				<tr>
@@ -135,28 +138,14 @@
 			
 					<table border="0" cellspacing="0" cellpadding="0">
 						<tr>
-						<%	if (user!=null && user.getRole().equals("admin")) { %>
 							<td width="17" height="23">
 								<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 							</td>
-							<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-								<a href="/updateProductView.do?prodNo=<%= productVO.getProdNo() %>">수정</a>
+							<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
+								<a href="/listProduct.do?menu=manage">확인</a>
 							</td>
 							<td width="14" height="23">
-								<img src="/images/ct_btnbg03.gif" width="14" height="23">
-							</td>
-						<%	} %>
-						
-							<td width="30"></td>
-							
-							<td width="17" height="23">
-								<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-							</td>
-							<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-								<a href="javascript:history.go(-1)">이전</a>
-							</td>
-							<td width="14" height="23">
-								<img src="/images/ct_btnbg03.gif" width="14" height="23">
+								<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
 							</td>
 						</tr>
 					</table>
@@ -164,7 +153,9 @@
 					</td>
 				</tr>
 			</table>
+			
 		</form>
 	
 	</body>
+	
 </html>
