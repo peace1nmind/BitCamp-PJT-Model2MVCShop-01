@@ -1,9 +1,10 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%
 	System.out.println("\n:: index.jsp");	
-
-	boolean existHistory = false;
+%>
+<%--	boolean existHistory = false;
 	Cookie[] cookies = request.getCookies();
 	
 	if (cookies != null && cookies.length > 0) {
@@ -20,11 +21,10 @@
 	System.out.println("\texistHistory= "+existHistory);
 	
 	if (!existHistory) {
-		response.addCookie(new Cookie("history", ""));
+		response.addCookie(new Cookie("history", new ArrayList<String>().toString()));
 	}
-	
-	
-%>
+
+--%>
 
 <html>
 

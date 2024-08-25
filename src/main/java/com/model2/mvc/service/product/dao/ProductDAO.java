@@ -29,7 +29,7 @@ public class ProductDAO extends AbstractDAO {
 	// 상품정보 조회를 위한 DBMS
 	public ProductVO findProduct(int prodNo) {
 		
-		System.out.println("\tnew ProductDAO().findProduct(prodNo)");
+		System.out.println("ProductDAO().findProduct(prodNo)");
 		System.out.println("\tprodNo= "+prodNo);
 		
 		Connection con = connect();
@@ -57,7 +57,7 @@ public class ProductDAO extends AbstractDAO {
 				productVO.setRegDate(rs.getDate("reg_date"));
 	//			productVO.setProTranCode("판매중");
 				
-				System.out.println(productVO);
+				System.out.println("\t찾은 productVO= "+productVO);
 				
 			} else {
 				System.out.println("\tprodNo= "+prodNo+" 인 상품은 등록되어있지 않습니다.");
@@ -81,7 +81,7 @@ public class ProductDAO extends AbstractDAO {
 	// 최근 등록된 상품정보 조회를 위한 DBMS
 	public ProductVO findProduct() {
 		
-		System.out.println("\tnew ProductDAO().findProduct()");
+		System.out.println("ProductDAO().findProduct()");
 		
 		Connection con = connect();
 		PreparedStatement stmt = null;
@@ -130,7 +130,7 @@ public class ProductDAO extends AbstractDAO {
 	// 상품목록 조회를 위한 DBMS
 	public HashMap<String, Object> getProductList(SearchVO searchVO) {
 		
-		System.out.println("\tnew ProductDAO().getProductList(searchVO)");
+		System.out.println("ProductDAO().getProductList(searchVO)");
 		
 		Connection con = connect();
 		PreparedStatement stmt = null;
@@ -231,7 +231,7 @@ public class ProductDAO extends AbstractDAO {
 	// 상품등록을 위한 DBMS
 	public void insertProduct(ProductVO productVO) {
 		
-		System.out.println("\tnew ProductVO().insertProduct(productVO)");
+		System.out.println("ProductVO().insertProduct(productVO)");
 		System.out.println("\t"+productVO);
 		
 		Connection con = connect();
@@ -277,7 +277,7 @@ public class ProductDAO extends AbstractDAO {
 	// 상품정보 수정을 위한 DBMS
 	public void updateProduct(ProductVO productVO) {
 		
-		System.out.println("\tnew ProductDAO().updateProduct(productVO)");
+		System.out.println("ProductDAO().updateProduct(productVO)");
 		System.out.println(productVO);
 		
 		Connection con = connect();
