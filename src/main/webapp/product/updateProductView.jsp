@@ -6,6 +6,7 @@
 	System.out.println("\n:: updateProductViw.jsp");
 
 	ProductVO productVO = (ProductVO) request.getAttribute("productVO");
+	System.out.println(productVO);
 %>
     
 <!DOCTYPE html>
@@ -45,18 +46,18 @@
 					alert("가격은 반드시 입력하셔야 합니다.");
 					return;
 				}
-					
+				
 				document.detailForm.action='/updateProduct.do';
 				document.detailForm.submit();
 			}
 			-->
 		</script>
-		
+		<%-- document.detailForm.action='/updateProduct.do'; --%>
 	</head>
 	
 	<body bgcolor="#ffffff" text="#000000">
 	
-		<form name="detailForm" method="post" enctype="multipart/form-data">
+		<form name="detailForm" method="post">
 		
 			<input type="hidden" name="prodNo" value="<%= productVO.getProdNo() %>"/>
 		
@@ -186,7 +187,9 @@
 					</td>
 				</tr>
 			</table>
+			
 		</form>
 	
 	</body>
+	
 </html>

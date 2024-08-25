@@ -23,7 +23,7 @@ public class UpdateProductViewAction extends Action {
 		System.out.println(String.format("\tprodNo= %d & menu= %s", prodNo, menu));
 		
 		ProductService service = new ProductServiceImpl();
-		ProductVO productVO = service.getProdut(prodNo);
+		ProductVO productVO = service.getProduct(prodNo);
 		
 		request.setAttribute("productVO", productVO);
 		

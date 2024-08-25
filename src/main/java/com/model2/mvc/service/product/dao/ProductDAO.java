@@ -284,11 +284,11 @@ public class ProductDAO extends AbstractDAO {
 		PreparedStatement stmt = null;
 		int rs = -1;
 		
-		String sql = "UPDATE FROM product SET prod_name=?, "
-											+ "prod_detal=?, "
-											+ "manufacture_day=?, "
-											+ "price=?, "
-											+ "image_file=? "
+		String sql = "UPDATE product SET prod_name=?, "
+										+ "prod_detail=?, "
+										+ "manufacture_day=?, "
+										+ "price=?, "
+										+ "image_file=? "
 					+ "WHERE prod_no=?";
 		
 		try {

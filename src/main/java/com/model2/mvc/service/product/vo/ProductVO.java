@@ -70,8 +70,10 @@ public class ProductVO {
 
 	// Override
 	public String toString() {
-		return "ProductVO : [fileName] " + fileName
-				+ " [manuDate] " + manuDate+ " [price] " + price + " [prodDetail] " + prodDetail
-				+ " [prodName] " + prodName + " [prodNo] " + prodNo;
+		
+		return String.format("ProductVO : [prodNo] %d [prodName] %s [prdoDetail] %s "
+				+ "\n\t [price] %d [fileName] %s [regDate] %s "
+				+ "\n\t [proTranCode] %s ", 
+						prodNo, prodName, prodDetail, price, fileName, regDate,proTranCode);
 	}	
 }

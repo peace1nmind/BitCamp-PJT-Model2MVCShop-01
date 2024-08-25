@@ -13,7 +13,7 @@ public interface ProductService {
 	// Method
 	public ProductVO addProduct(ProductVO productVO);
 	
-	public ProductVO getProdut(int prodNo);
+	public ProductVO getProduct(int prodNo);
 	
 	public HashMap<String, Object> getProductList(SearchVO searchVO);
 	

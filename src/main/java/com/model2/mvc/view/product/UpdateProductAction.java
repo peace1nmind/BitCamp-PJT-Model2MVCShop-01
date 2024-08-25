@@ -1,6 +1,8 @@
 package com.model2.mvc.view.product;
 // W D 
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,9 +19,19 @@ public class UpdateProductAction extends Action {
 		
 		System.out.println("\n>> UpdateProductAction");
 		
-		ProductVO productVO = new ProductVO();
-		/* 오류 수정필요 */
-		productVO.setProdNo(Integer.parseInt(request.getParameter("prodNo")));
+		ProductService service = new ProductServiceImpl();
+		Enumeration<String> paramNames = request.getParameterNames();
+		
+		System.out.print("paramNames= ");
+		while (paramNames.hasMoreElements()) {
+			System.out.print(paramNames.nextElement() + " ");
+		}
+		System.out.println();
+		
+		// prodNo로 DB에서 기존 productVO를 가져오고 그걸 수정
+		ProductVO productVO = service.getProduct(Integer.parseInt(request.getParameter("prodNo")));
+		System.out.println("수정 전 productVO= "+productVO);
+		
 		productVO.setProdName(request.getParameter("prodName"));
 		productVO.setProdName(request.getParameter("prodDetail"));
 		
@@ -27,13 +39,14 @@ public class UpdateProductAction extends Action {
 		for (String str : request.getParameter("manuDate").split("-")) {
 			manuDate += str;
 		}
+		
 		productVO.setManuDate(manuDate);
 		
 		productVO.setPrice(Integer.parseInt(request.getParameter("price")));
 		productVO.setFileName(request.getParameter("fileName"));
 		
-		ProductService service = new ProductServiceImpl();
-		System.out.println("\t수정 productVO= "+productVO);
+		
+		System.out.println("\t수정 후 productVO= "+productVO);
 		
 		ProductVO prodVO = service.updateProduct(productVO);
 		System.out.println("\tDB 수정된 productVO= "+prodVO);
