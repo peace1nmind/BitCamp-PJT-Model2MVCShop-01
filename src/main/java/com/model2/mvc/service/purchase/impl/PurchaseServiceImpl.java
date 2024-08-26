@@ -41,7 +41,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public PurchaseVO getPurchase(int tranNo) {
 		
-		return null;
+		return purchaseDAO.findPurchase(tranNo);
 	}
 	
 	// 구매목록 보기를 위한 BL
@@ -60,9 +60,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	// 구매정보 수정을 위한 BL
 	@Override
-	public PurchaseVO updatePurchase(PurchaseVO puchaseVO) {
+	public PurchaseVO updatePurchase(PurchaseVO purchaseVO) {
 		
-		return null;
+		purchaseDAO.updatePurchase(purchaseVO);
+		System.out.println("\tDB 수정완료");
+		PurchaseVO purVO = purchaseDAO.findPurchase(purchaseVO.getTranNo());
+		System.out.println("\tDB 내용= "+purVO);
+		
+		return purVO;
 	}
 	
 	// 구매상태코드 수정을 위한 BL

@@ -2,6 +2,7 @@ package com.model2.mvc.service.purchase.dao;
 // W D 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +14,6 @@ import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.dao.AbstractDAO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.product.vo.ProductVO;
 import com.model2.mvc.service.purchase.vo.PurchaseVO;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
@@ -63,6 +63,8 @@ public class PurchaseDAO extends AbstractDAO {
 				purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
 				purchaseVO.setTranCode(rs.getString("tran_status_code"));
 				purchaseVO.setOrderDate(rs.getDate("order_date"));
+				
+				/* 받을 때 YYMMDD 식으로 받게끔 수정필요 */
 				purchaseVO.setDlvyDate(rs.getString("dlvy_date"));
 				
 				System.out.println("\t찾은 purchaseVO= "+purchaseVO);
@@ -282,10 +284,60 @@ public class PurchaseDAO extends AbstractDAO {
 	// 구매정보 수정을 위한 DBMS
 	public void updatePurchase(PurchaseVO purchaseVO) {
 		
+		System.out.println("PurchaseDAO().updatePurchase(purchaseVO)");
+		System.out.println("\tpurchaseVO= "+purchaseVO);
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		int rs = -1;
+		
+		String sql = "UPDATE transaction "
+					+ "SET payment_option=?, "
+						+ "receiver_name=?, "
+						+ "receiver_phone=?, "
+						+ "dlvy_addr=?, "
+						+ "dlvy_request=?, "
+						+ "dlvy_date=? ";
+		System.out.println("\tSQL= "+sql);
+		
+		try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, purchaseVO.getPaymentOption().trim());
+			stmt.setString(2, purchaseVO.getReceiverName());
+			stmt.setString(3, purchaseVO.getReceiverPhone());
+			stmt.setString(4, purchaseVO.getDlvyAddr());
+			stmt.setString(5, purchaseVO.getDlvyRequest());
+			stmt.setString(6, purchaseVO.getDlvyDate());
+			
+			rs = stmt.executeUpdate();
+			System.out.println("\tstmt.executeUpdate()");
+			
+			if (rs > 0) {
+				System.out.println("\t"+rs+" 행이 수정되었습니다.");
+				
+			} else {
+				System.out.println("\tDB 수정 실패하였습니다.");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(con, stmt);
+			
+		}
+		
 	}
 	
 	// 구매상태코드 수정을 위한 DBMS
 	public void updateTranCode(PurchaseVO purchaseVO) {
+		
+		System.out.println("PurchaseDAO().updateTranCode(purchaseVO)");
+		System.out.println("\tpurchaseVO= "+purchaseVO);
 		
 	}
 	
