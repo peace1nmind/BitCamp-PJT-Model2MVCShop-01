@@ -1,7 +1,13 @@
+<%@page import="java.util.Map"%>
+<%@page import="com.model2.mvc.service.purchase.TranCodeMapper"%>
 <%@page import="com.model2.mvc.service.product.vo.ProductVO"%>
 <%@page import="com.model2.mvc.service.product.impl.ProductServiceImpl"%>
 <%@page import="com.model2.mvc.service.product.ProductService"%>
 <%@ page contentType="text/html; charset=EUC-KR" %>
+
+<%
+	Map<String, String> tranCodeMap = (TranCodeMapper.getInstance()).getMap();
+%>
 
 <html>
 	<head>
@@ -38,15 +44,17 @@
 			}
 			
 			if (history != null) { %>
-			
+		<center>
 		<table border="1" cellspacing="0" cellpadding="5">
 		<tr>
+			<th>No.</th>
 			<th>상품명</th>
 			<th>가격</th>
-			<th>현재상태</th>
+			<th style="width: 70px;">현재상태</th>
 		</tr>			
 			
 	<%			String[] historys = (history.trim()).split("&");
+				int no = 1;
 				for (String h : historys) {
 					System.out.println("\th= "+ ((h==null||h.equals(""))? "null" : h));
 					if (!h.equals("null") && !h.equals("")) {
@@ -55,9 +63,10 @@
 						System.out.println("\tprodName= "+productVO.getProdName());
 	%>
 		<tr>
+			<td><%= no++ %></td>
 			<td><a href="/getProduct.do?prodNo=<%= h %>&menu=search"	target="rightFrame"><%= productVO.getProdName() %></a></td>
 			<td><%= productVO.getPrice() %></td>
-			<td><%= productVO.getProTranCode() %></td>
+			<td><%= tranCodeMap.get(productVO.getProTranCode().trim()) %></td>
 		</tr>
 	<%
 					}
@@ -68,6 +77,7 @@
 	<%		} %>
 	
 		</table>
+		</center>
 	<%	} %>
 	
 	</body>

@@ -19,7 +19,6 @@ public class ProductServiceImpl implements ProductService {
 		productDAO = new ProductDAO();
 	}
 	
-	// TODO return Type 수정 필요해보임
 	// 상품 등록을 위한 BL
 	@Override
 	public ProductVO addProduct(ProductVO productVO) {

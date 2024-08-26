@@ -17,12 +17,12 @@ public class ListProductAction extends Action {
 	public String execute(	HttpServletRequest request, HttpServletResponse response) 
 							throws Exception {
 		
-		System.out.println("\tnew ListProductAction().execute(request, response)");
+		System.out.println("\n>> ListProductAction");
 		
 //		String menu = request.getParameter("menu");
 //		System.out.println(menu);
 
-		SearchVO searchVO = new SearchVO();
+		SearchVO searchVO = new SearchVO(getServletContext());
 		
 //		int page = 1;
 		if (request.getParameter("page") != null) {
@@ -33,9 +33,6 @@ public class ListProductAction extends Action {
 		
 		searchVO.setSearchCondition(request.getParameter("searchCondition"));
 		searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
-		
-		int pageUnit = Integer.parseInt(getServletContext().getInitParameter("pageSize"));
-		searchVO.setPageUnit(pageUnit);
 		
 		ProductService service = new ProductServiceImpl();
 		System.out.println("\tsearchVO= "+searchVO);

@@ -17,7 +17,7 @@ public class ListUserAction extends Action {
 	@Override
 	public String execute(HttpServletRequest request,HttpServletResponse response) 
 							throws Exception {
-		SearchVO searchVO=new SearchVO();
+		SearchVO searchVO=new SearchVO(getServletContext());
 		
 		int page=1;
 		if(request.getParameter("page") != null)
@@ -26,9 +26,6 @@ public class ListUserAction extends Action {
 		searchVO.setPage(page);
 		searchVO.setSearchCondition(request.getParameter("searchCondition"));
 		searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
-		
-		String pageUnit=getServletContext().getInitParameter("pageSize");
-		searchVO.setPageUnit(Integer.parseInt(pageUnit));
 		
 		UserService service=new UserServiceImpl();
 		HashMap<String,Object> map=service.getUserList(searchVO);

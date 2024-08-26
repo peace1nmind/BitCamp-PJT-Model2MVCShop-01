@@ -18,9 +18,14 @@ public class GetPurchaseAction extends Action {
 
 	// Method
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String execute(	HttpServletRequest request, HttpServletResponse response) 
+							throws Exception {
+		
+		System.out.println("\n>> GetPurchaseAction");
+		
+		
 
-		return null;
+		return "forward:/purchase/getPurchase.jsp";
 	}
 
 }

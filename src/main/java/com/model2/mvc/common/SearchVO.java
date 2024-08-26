@@ -1,5 +1,6 @@
 package com.model2.mvc.common;
 
+import javax.servlet.ServletContext;
 
 public class SearchVO {
 	
@@ -9,7 +10,10 @@ public class SearchVO {
 	String searchKeyword;
 	int pageUnit;
 	
-	public SearchVO(){
+	public SearchVO(ServletContext servletContext){
+		// 인스턴스를 생성할때 Action에서 ActionServlet에서 받은 servletContext를 넘겨 받아서
+		// web.xml에 있는 param 값을 가져옴
+		pageUnit = Integer.parseInt(servletContext.getInitParameter("pageSize"));
 	}
 	
 	public int getPageUnit() {

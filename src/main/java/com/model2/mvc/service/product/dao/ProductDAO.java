@@ -223,10 +223,10 @@ public class ProductDAO extends AbstractDAO {
 			
 		}
 		
-		System.out.println("list.size() : "+ list.size());
+		System.out.println("\tlist.size() : "+ list.size());
 		// 페이지에 해당하는 UserVO들을 map에 ArrayList타입으로 넣음
 		map.put("list", list);
-		System.out.println("map().size() : "+ map.size());
+		System.out.println("\tmap().size() : "+ map.size());
 		
 		return map;
 	}

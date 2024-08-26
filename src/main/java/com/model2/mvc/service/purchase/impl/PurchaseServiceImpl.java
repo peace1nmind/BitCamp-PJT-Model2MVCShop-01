@@ -46,14 +46,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	// 구매목록 보기를 위한 BL
 	@Override
-	public HashMap getPurchaseList(SearchVO searchVO, String tranCode) {
+	public HashMap<String, Object> getPurchaseList(SearchVO searchVO, String buyerId) {
 		
-		return null;
+		return purchaseDAO.getPurchaseList(searchVO, buyerId);
 	}
 	
 	// 판매목록 보기를 위한 BL
 	@Override
-	public HashMap getSaleList(SearchVO searchVO) {
+	public HashMap<String, Object> getSaleList(SearchVO searchVO) {
 		
 		return null;
 	}

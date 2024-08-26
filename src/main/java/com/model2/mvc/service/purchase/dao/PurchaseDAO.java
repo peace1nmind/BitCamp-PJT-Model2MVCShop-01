@@ -5,12 +5,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.dao.AbstractDAO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
+import com.model2.mvc.service.product.vo.ProductVO;
 import com.model2.mvc.service.purchase.vo.PurchaseVO;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
@@ -18,6 +21,9 @@ import com.model2.mvc.service.user.impl.UserServiceImpl;
 public class PurchaseDAO extends AbstractDAO {
 
 	// Field
+	private UserService userService = new UserServiceImpl();
+	private ProductService productService = new ProductServiceImpl();
+	
 
 	// Constructor
 	public PurchaseDAO() {
@@ -134,8 +140,86 @@ public class PurchaseDAO extends AbstractDAO {
 	}
 	
 	// 구매목록 보기를 위한 DBMS
-	public HashMap getPurchaseList(SearchVO searchVO, String tranCode) {
-		return null;	
+	public HashMap<String, Object> getPurchaseList(SearchVO searchVO, String buyerId) {
+		
+		System.out.println("PurchaseDAO().getPurchaseList(searchVO, tranCode)");
+		System.out.println("\tSearchVO= "+searchVO);
+		System.out.println("\tbuyerId= "+buyerId);
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		int total = 0;
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<PurchaseVO> list = new ArrayList<PurchaseVO>();
+		
+		String sql = "SELECT * FROM transaction WHERE buyer_id=? ORDER BY order_date DESC";
+		System.out.println("\tSQL= "+sql);
+		
+		try {
+			stmt = con.prepareStatement(sql, 
+										ResultSet.TYPE_SCROLL_INSENSITIVE, 
+										ResultSet.CONCUR_UPDATABLE);
+			stmt.setString(1, buyerId);
+			
+			rs = stmt.executeQuery();
+			
+			rs.last();
+			total = rs.getRow();
+			
+			// map에 "count"값 추가 : 전체 레코드의 수
+			map.put("count", new Integer(total));
+			System.out.println("map.get(\"count\")= "+map.get("count"));
+			
+			// 커서를 page, pageUnit을 이용하여 해당 페이지에 보여줘야할 유저의 첫번째 레코드로 이동
+			rs.absolute((searchVO.getPage() - 1) * searchVO.getPageUnit() + 1);
+			System.out.println("searchVO.getPage():" + searchVO.getPage());
+			System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
+			
+
+			// DB의 product 내용 ProductVO에 담고 list에 넣기
+			if (total > 0) {
+				for (int i = 0; i < searchVO.getPageUnit(); i++) {
+					PurchaseVO vo = new PurchaseVO();
+					vo.setTranNo(rs.getInt("tran_no"));
+					vo.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
+					vo.setBuyer(userService.getUser(rs.getString("buyer_id")));
+					vo.setPaymentOption(rs.getString("payment_option"));
+					vo.setReceiverName(rs.getString("receiver_name"));
+					vo.setReceiverPhone(rs.getString("receiver_phone"));
+					vo.setDlvyAddr(rs.getString("dlvy_addr"));
+					vo.setDlvyRequest(rs.getString("dlvy_request"));
+					vo.setTranCode(rs.getString("tran_status_code"));
+					vo.setOrderDate(rs.getDate("order_date"));
+					vo.setDlvyDate(rs.getString("dlvy_date"));
+					
+					System.out.println(vo);
+					
+					list.add(vo);
+					
+					if (!rs.next()) {
+						break;
+					}
+					
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		
+		System.out.println("\tlist.size() : "+ list.size());
+		// 페이지에 해당하는 UserVO들을 map에 ArrayList타입으로 넣음
+		map.put("list", list);
+		System.out.println("\tmap().size() : "+ map.size());
+		
+		return map;	
 	}
 	
 	// 판매목록 보기를 위한 DBMS
