@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
 
+// listSale.do
+// 판매목록 요청
 public class ListSaleAction extends Action {
 
 	// Field

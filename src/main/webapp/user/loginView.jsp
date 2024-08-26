@@ -1,5 +1,10 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
+<%
+	String userId = request.getParameter("userID");
+	userId = (userId==null||userId.equals(""))? "" : userId;
+%>
+
 <html>
 	<head>
 	<title>·Î±×ÀÎ</title>
@@ -72,8 +77,8 @@
 							                	<img src="/images/text_id.gif" width="100" height="30">
 							                </td>
 							                <td height="30">
-							                  <input 	type="text" name="userId"  class="ct_input_g" 
-							                  				style="width:180px; height:19px"  maxLength='50'/>          
+							                  <input 	type="text" name="userId" value="<%= userId %>"
+							                  			class="ct_input_g" style="width:180px; height:19px"  maxLength='50'/>          
 							          		</td>
 							                <td width="20" height="30">&nbsp;</td>
 							              </tr>

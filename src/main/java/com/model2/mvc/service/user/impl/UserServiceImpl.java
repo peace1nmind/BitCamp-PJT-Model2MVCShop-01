@@ -26,9 +26,14 @@ public class UserServiceImpl implements UserService{
 			
 			// TODO DB에 userVO.getUserId()가 없을 때의 행동처리 필요
 			
-			if(! dbUser.getPassword().equals(userVO.getPassword()))
+			if (dbUser==null) {
+				System.out.println("해당하는 아이디가 없습니다.");
+				
+			} else if (! dbUser.getPassword().equals(userVO.getPassword())) {
 				throw new Exception("로그인에 실패했습니다.");
-			
+				
+			}
+				
 			return dbUser;
 	}
 

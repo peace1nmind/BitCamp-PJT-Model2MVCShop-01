@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
 
+// updatePurchase.do
+// 구매정보 수정 요청
 public class UpdatePurchaseAction extends Action {
 	
 	// Field

@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
 
+// updateTranCode.do
+// 구매 상태코드 수정 요청
 public class UpdateTranCodeAction extends Action {
 
 	// Field

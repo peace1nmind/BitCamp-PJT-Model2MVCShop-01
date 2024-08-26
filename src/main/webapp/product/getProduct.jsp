@@ -146,7 +146,7 @@
 								<img src="/images/ct_btnbg03.gif" width="14" height="23">
 							</td>
 							
-						<%	} else if (user!=null && user.getRole().equals("user")){ %>
+						<%	} else if (user!=null && user.getRole().equals("user") && productVO.getProTranCode().trim().equals("1")){ %>
 							<td width="17" height="23">
 								<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 							</td>

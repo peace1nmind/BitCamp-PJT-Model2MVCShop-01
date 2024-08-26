@@ -1,3 +1,5 @@
+<%@page import="java.util.Map"%>
+<%@page import="com.model2.mvc.service.purchase.TranCodeMapper"%>
 <%@page import="javax.swing.event.SwingPropertyChangeSupport"%>
 <%@page import="java.util.List"%>
 <%@page import="com.model2.mvc.service.product.vo.ProductVO"%>
@@ -59,6 +61,9 @@
 	if (searchVO.getSearchKeyword() == null) {
 		searchVO.setSearchKeyword("");
 	}
+	
+	TranCodeMapper tranCodeMapper = TranCodeMapper.getInstance();
+	Map<String, String> tranCodeMap = tranCodeMapper.getMap();
 	
 %>
     
@@ -173,16 +178,20 @@
 						<td align="center"> <%= no-- %></td>
 						<td></td>
 								
-						<td align="left"><a href="/<%= navi %>?prodNo=<%= productVO.getProdNo() %>&menu=<%= menu %>">
-							<%= productVO.getProdName() %>
-						</a></td>
+						<td align="left">
+							<a href="/<%= navi %>?prodNo=<%= productVO.getProdNo() %>&menu=<%= menu %>">
+								<%= productVO.getProdName() %>
+							</a>
+						</td>
 						
 						<td></td>
 						<td align="left"><%= productVO.getPrice() %></td>
 						<td></td>
 						<td align="left"><%= productVO.getRegDate() %></td>
 						<td></td>
-						<td align="left"><%= productVO.getProTranCode() %></td>	
+						<% String tranCode = productVO.getProTranCode(); %>
+						<% System.out.println("\tproTranCode= "+tranCode); %>
+						<td align="left"><%= tranCodeMap.get(tranCode.trim()) %></td>	
 					</tr>
 					<tr>
 						<td colspan="11" bgcolor="D6D7D6" height="1"></td>

@@ -43,7 +43,7 @@ public class ListProductAction extends Action {
 		
 		System.out.println("\tmap= "+map);
 		request.setAttribute("map", map);
-//		System.out.println("\tsearchVO= "+searchVO);
+		System.out.println("\tsearchVO= "+searchVO);
 		request.setAttribute("searchVO", searchVO);
 		
 		return "forward:/product/listProduct.jsp";

@@ -12,7 +12,10 @@ public class ProductVO {
 	private int price;
 	private String fileName;					// 상품 이미지 파일이름
 	private Date regDate;
-	private String proTranCode = "판매중";		// 상품 상태코드 판매중, 배송중 
+	private String proTranCode = "1";			// 상품 상태코드
+	//											  (1:판매중, 2:구매완료, 3:배송중, 4:배송완료)
+	
+	
 	// TODO proTranCode 처리에 대한 고민 (DB에 넣을지?, 상품관련 서비스에서 어떻게 처리할지)
 	//		setProTranCode는 전부 "판매중"으로 써놓고 주석처리되어있음
 	

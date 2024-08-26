@@ -32,7 +32,7 @@ public class AddProductAction extends Action {
 		productVO.setFileName(request.getParameter("fileName"));
 		System.out.println(request.getParameter("fileName"));
 		// regDate = SYSDATE
-//		productVO.setProTranCode("판매중");
+		productVO.setProTranCode("1");
 		
 		System.out.println("\t추가할 productVO= "+productVO);
 		ProductService service = new ProductServiceImpl();

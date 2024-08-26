@@ -8,10 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.dao.AbstractDAO;
 import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.service.purchase.TranCodeMapper;
 
 // TODO productVO.proTranCode에 대한 설정고려 (DB에 넣을지, B/L에서만 다룰지)
 public class ProductDAO extends AbstractDAO {
@@ -55,7 +58,7 @@ public class ProductDAO extends AbstractDAO {
 				productVO.setPrice(rs.getInt("price"));
 				productVO.setFileName(rs.getString("image_file"));
 				productVO.setRegDate(rs.getDate("reg_date"));
-	//			productVO.setProTranCode("판매중");
+				productVO.setProTranCode(rs.getString("pro_tran_code"));
 				
 				System.out.println("\t찾은 productVO= "+productVO);
 				
@@ -109,7 +112,7 @@ public class ProductDAO extends AbstractDAO {
 			productVO.setPrice(rs.getInt("price"));
 			productVO.setFileName(rs.getString("image_file"));
 			productVO.setRegDate(rs.getDate("reg_date"));
-//			productVO.setProTranCode("판매중");
+			productVO.setProTranCode(rs.getString("pro_tran_code"));
 			
 			System.out.println("\t최근 등록내용= "+productVO);
 			
@@ -199,7 +202,7 @@ public class ProductDAO extends AbstractDAO {
 					vo.setPrice(rs.getInt("price"));
 					vo.setFileName(rs.getString("image_file"));
 					vo.setRegDate(rs.getDate("reg_date"));
-//					vo.setProTranCode("판매중");
+					vo.setProTranCode(rs.getString("pro_tran_code"));
 					
 					System.out.println(vo);
 					
@@ -238,7 +241,7 @@ public class ProductDAO extends AbstractDAO {
 		PreparedStatement stmt = null;
 		int rs = -1;
 		
-		String sql = "INSERT INTO product VALUES(seq_product_prod_no.NEXTVAL, ?, ?, ?, ?, ?, SYSDATE)";
+		String sql = "INSERT INTO product VALUES(seq_product_prod_no.NEXTVAL, ?, ?, ?, ?, ?, SYSDATE, ?)";
 		System.out.println("\tSQL= "+sql);
 		
 		try {
@@ -248,7 +251,7 @@ public class ProductDAO extends AbstractDAO {
 			stmt.setString(3, productVO.getManuDate());
 			stmt.setInt(4, productVO.getPrice());
 			stmt.setString(5, productVO.getFileName());
-//			stmt.setString(5, "이미지준비중.jpg");
+			stmt.setString(6, productVO.getProTranCode());
 			
 			rs = stmt.executeUpdate();
 			System.out.println("\tstmt.executeUpdate()");
@@ -324,6 +327,66 @@ public class ProductDAO extends AbstractDAO {
 		}
 		
 	}
+	
+	// 상품 상태코드 수정하는 DBMS
+	public void updateTranCode(int prodNo, String proTranCode) {
+		
+		System.out.println("ProductDAO().updateTranCode(proTranCode");
+		System.out.println("\tproTranCode= "+proTranCode);
+		
+		TranCodeMapper tranCodeMapper = TranCodeMapper.getInstance();
+		Map<String, String> map = tranCodeMapper.getMap();
+		Set<String> keySet = map.keySet();
+		
+		try {
+			if (keySet.contains(proTranCode)) {
+				System.out.println("\t변경하려는 상품상태= "+map.get(proTranCode));
+				
+			} else {
+				throw new Exception("올바르지 않는 proTranCode입니다");
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		int rs = -1;
+		
+		String sql = "UPDATE product SET pro_tran_code=? WHERE prod_no=?";
+		System.out.println("\tSQL= "+sql);
+		
+		try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, proTranCode);
+			stmt.setInt(2, prodNo);
+			
+			rs = stmt.executeUpdate();
+			
+			if (rs > 0) {
+				System.out.println("\t"+rs+" 행이 수정되었습니다.");
+				
+			} else {
+				System.out.println("\t수정 실패하였습니다.");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(con, stmt);
+			
+		}
+		
+	}
+	
 
 }
 // class end
