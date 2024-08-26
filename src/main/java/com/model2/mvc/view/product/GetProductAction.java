@@ -1,10 +1,6 @@
 package com.model2.mvc.view.product;
 // W D 
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
