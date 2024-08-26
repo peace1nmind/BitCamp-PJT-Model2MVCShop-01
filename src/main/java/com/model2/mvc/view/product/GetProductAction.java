@@ -37,24 +37,22 @@ public class GetProductAction extends Action {
 		Cookie[] cookies = request.getCookies();
 		Cookie historyCookie = new Cookie("history", null);
 		
-		/* cookie문제 해결 필요 history값이 리셋됨 */
 		if (cookies!=null && cookies.length>0) {
 			for (Cookie cookie : cookies) {
 				historyCookie = (cookie.getName().equals("history"))? cookie : historyCookie;
 			}
 		}
 		
+		// 최근 본 상품 최신화 기능
 		String historyCookieValue = historyCookie.getValue();
 		String value = "";
 		
 		if (historyCookieValue == null) {
 			value = prodNo;
-//			historyCookie.setValue(prodNo);
 			
 		} else {
 			if (!historyCookieValue.contains(prodNo)) {
 				value = prodNo+"&"+historyCookieValue;
-//				historyCookie.setValue(prodNo+"&"+historyCookieValue);
 				
 			} else {
 				for (String s : historyCookieValue.split(prodNo)) {
@@ -67,8 +65,10 @@ public class GetProductAction extends Action {
 				for (int i = 0; i < splittedValue.length; i++) {
 					if (i < splittedValue.length -1) {
 						value += splittedValue[i] + "&";
+						
 					} else {
 						value += splittedValue[i];
+						
 					}
 				}
 				
@@ -80,7 +80,7 @@ public class GetProductAction extends Action {
 		
 		System.out.println("\tvalue= "+value);
 		historyCookie.setValue(value);
-//		System.out.println("historyCookieValue= "+historyCookieValue);
+
 		response.addCookie(historyCookie);
 		
 		if (menu == null) {
