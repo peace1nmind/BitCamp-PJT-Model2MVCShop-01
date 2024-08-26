@@ -27,7 +27,7 @@
 	int totalPage = 0;
 	
 	if (total > 0) {
-		totalPage = (int) Math.floor(total*1.0 / searchVO.getPageUnit()); 
+		totalPage = (int) Math.ceil(total*1.0 / searchVO.getPageUnit()); 
 	}
 	
 	Map<String, String> tranCodeMap = TranCodeMapper.getInstance().getMap();

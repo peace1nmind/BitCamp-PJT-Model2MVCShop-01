@@ -63,9 +63,7 @@ public class PurchaseDAO extends AbstractDAO {
 				purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
 				purchaseVO.setTranCode(rs.getString("tran_status_code"));
 				purchaseVO.setOrderDate(rs.getDate("order_date"));
-				
-				/* 받을 때 YYYYMMDD 식으로 받게끔 수정필요 */
-				purchaseVO.setDlvyDate(rs.getString("dlvy_date"));
+				purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
 				
 				System.out.println("\t찾은 purchaseVO= "+purchaseVO);
 				
@@ -123,7 +121,7 @@ public class PurchaseDAO extends AbstractDAO {
 			purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
 			purchaseVO.setTranCode(rs.getString("tran_status_code"));
 			purchaseVO.setOrderDate(rs.getDate("order_date"));
-			purchaseVO.setDlvyDate(rs.getString("dlvy_date"));
+			purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
 			
 			System.out.println("\t최근 등록내용= "+purchaseVO);
 			
@@ -195,7 +193,7 @@ public class PurchaseDAO extends AbstractDAO {
 					vo.setDlvyRequest(rs.getString("dlvy_request"));
 					vo.setTranCode(rs.getString("tran_status_code"));
 					vo.setOrderDate(rs.getDate("order_date"));
-					vo.setDlvyDate(rs.getString("dlvy_date"));
+					vo.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
 					
 					System.out.println(vo);
 					
@@ -225,7 +223,11 @@ public class PurchaseDAO extends AbstractDAO {
 	}
 	
 	// 판매목록 보기를 위한 DBMS
-	public HashMap getSaleList(SearchVO searchVO) {
+	public HashMap<String, Object> getSaleList(SearchVO searchVO) {
+		
+		System.out.println("PurchaseDAO().getSaleList(searchVO)");
+		System.out.println("\tsearchVO= "+searchVO);
+		
 		return null;	
 	}
 	

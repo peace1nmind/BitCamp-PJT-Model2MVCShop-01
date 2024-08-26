@@ -43,6 +43,7 @@
 	if (map != null) {
 		// 검색된 전체 레코드의 양을 int로 형변환 (Object → Integer → int)
 		total = ((Integer) map.get("count")).intValue();
+		System.out.println("\ttotal= "+total);
 		productList = (ArrayList<ProductVO>) map.get("list");
 	}
 	
@@ -51,7 +52,8 @@
 	
 	if (total>0) {
 		// 전체를 pageUnit으로 나누고 올림하여 전체 페이지값을 계산
-		totalPage = (int) Math.floor(total*1.0 / searchVO.getPageUnit());
+		totalPage = (int) Math.ceil(total*1.0 / searchVO.getPageUnit());
+		System.out.println("\ttotalPage= "+totalPage);
 	}
 	
 	if (searchVO.getSearchCondition() == null) {
@@ -189,9 +191,17 @@
 						<td></td>
 						<td align="left"><%= productVO.getRegDate() %></td>
 						<td></td>
-						<% String tranCode = productVO.getProTranCode(); %>
+						<% String tranCode = productVO.getProTranCode().trim(); %>
 						<% System.out.println("\tproTranCode= "+tranCode); %>
-						<td align="left"><%= tranCodeMap.get(tranCode.trim()) %></td>	
+						<td align="left">
+							<%= tranCodeMap.get(tranCode) %>
+							
+						<% if (menu.equals("manage") && tranCode.equals("2")) { %>
+							&nbsp;
+							<a href="/updateTranCodeByProd.do?prodNo=<%= productVO.getProdNo() %>">배송하기</a>
+						<% } %>
+						
+						</td>	
 					</tr>
 					<tr>
 						<td colspan="11" bgcolor="D6D7D6" height="1"></td>

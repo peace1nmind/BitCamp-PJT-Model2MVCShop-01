@@ -157,8 +157,7 @@
 			<tr>
 				<td width="104" class="ct_write">πËº€»Ò∏¡¿œ</td>
 				<td bgcolor="D6D6D6" width="1"></td>
-				<%	String dlvyDate = purchaseVO.getDlvyDate().split(" ")[0];%>
-				<td class="ct_write01"><%= dlvyDate %></td>
+				<td class="ct_write01"><%= purchaseVO.getDlvyDate() %></td>
 			</tr>
 		
 			<tr>

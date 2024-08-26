@@ -1,8 +1,8 @@
 		function show_calendar(str_target, str_datetime) 
 		{ 
 
-		   var arr_months = ["1¿ù", "2¿ù", "3¿ù", "4¿ù", "5¿ù", "6¿ù","7¿ù", "8¿ù", "9¿ù", "10¿ù", "11¿ù", "12¿ù"]; 
-	        var week_days = ["¿ù", "È­", "¼ö", "¸ñ", "±Ý", "Åä", "ÀÏ"]; 
+		   var arr_months = ["1ï¿½ï¿½", "2ï¿½ï¿½", "3ï¿½ï¿½", "4ï¿½ï¿½", "5ï¿½ï¿½", "6ï¿½ï¿½","7ï¿½ï¿½", "8ï¿½ï¿½", "9ï¿½ï¿½", "10ï¿½ï¿½", "11ï¿½ï¿½", "12ï¿½ï¿½"]; 
+	        var week_days = ["ï¿½ï¿½", "È­", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½"]; 
 	        var n_weekstart = 0; 
 	
 	        var dt_datetime = ((str_datetime ==null||str_datetime=="")? new Date():tuning2dt(str_datetime,str_target));
@@ -41,11 +41,11 @@
 		                "<title>Calendar</title>\n"+ 
 		                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n"+
 		                "<style>\n"+
-	                    "td {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, µ¸¿ò; line-height:15px}\n"+
-	                    "A:link    {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, µ¸¿ò}\n"+
-	                    "A:visited {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, µ¸¿ò}\n"+
-	                    "A:active  {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, µ¸¿ò}\n"+
-	                    "A:hover   {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, µ¸¿ò}\n"+
+	                    "td {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, ï¿½ï¿½ï¿½ï¿½; line-height:15px}\n"+
+	                    "A:link    {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, ï¿½ï¿½ï¿½ï¿½}\n"+
+	                    "A:visited {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, ï¿½ï¿½ï¿½ï¿½}\n"+
+	                    "A:active  {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, ï¿½ï¿½ï¿½ï¿½}\n"+
+	                    "A:hover   {font-size: 11px; color: #222222; text-decoration: none; font-family:verdana, ï¿½ï¿½ï¿½ï¿½}\n"+
 	                    "</style>\n"+ 
 		                "</head>\n"+
 		                "<body background=\"/eMarketPlace/images/others/ct_diary_bg2.gif\" style=\"margin:8\">\n"+ 
@@ -53,7 +53,7 @@
 		                "<tr><td align=\"center\" background=\"/eMarketPlace/images/others/ct_diary_bg.gif\" bgcolor=\"#ffffff\" style=\"border:FFFFFF solid 1px; padding:11 9 9 9\">\n"+ 
 		                "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n"+ 
 		                "<tr>\n  <td height=\"20\" align=\"center\">\n"+
-		                "<!-- -------- ¿ù Ç¥½Ã S  -------- -->\n"+
+		                "<!-- -------- ï¿½ï¿½ Ç¥ï¿½ï¿½ S  -------- -->\n"+
 		                "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr>\n"+
 		                "<td>"+
 						"<a href=\"javascript:window.opener.show_calendar('"+ str_target+"', '"+ tuning(dt_prev_year)+"');\">"+ 
@@ -62,19 +62,19 @@
 		                "<img src=\"/images/others/ct_diary_btn1.gif\" width=\"15\" height=\"13\" border=\"0\"></a>"+
 						"</td>\n"+ 
 		                "<td align=\"center\"  width=\"85\"><font size=\"2\">" 
-		                +dt_datetime.getFullYear()+"³â "+arr_months[dt_datetime.getMonth()]+"</font></td>\n"+ 
+		                +dt_datetime.getFullYear()+"ï¿½ï¿½ "+arr_months[dt_datetime.getMonth()]+"</font></td>\n"+ 
 		                "<td align=\"right\">"+
 						"<a href=\"javascript:window.opener.show_calendar('" +str_target+"', '"+tuning(dt_next_month)+"');\">"+ 
 		                "<img src=\"/images/others/ct_diary_btn2.gif\" width=\"15\" height=\"13\" border=\"0\"></a> "+
 						"<a href=\"javascript:window.opener.show_calendar('" +str_target+"', '"+tuning(dt_next_year)+"');\">"+ 
 		                "<img src=\"/images/others/ct_diary_btn2.gif\" width=\"15\" height=\"13\" border=\"0\"></a>"+
 						"</td>\n</tr>\n</table>\n"+ 
-		                "<!-- -------- ¿ù Ç¥½Ã E  -------- -->\n"+
+		                "<!-- -------- ï¿½ï¿½ Ç¥ï¿½ï¿½ E  -------- -->\n"+
 		                "</td>\n</tr>\n<tr>\n<td bgcolor=\"EBEFF7\" height=\"1\">\n</td>\n</tr>\n<tr>\n"+
 						"<td height=\"23\" align=\"center\" valign=\"bottom\"><img src=\"/images/others/ct_diary_title.gif\"></td>\n"+
 					    "</tr>\n<tr>\n<td bgcolor=\"E5E5E5\" height=\"2\"></td>\n"+
 					    "</tr>\n<tr>\n<td>\n"+
-					    "<!-- -------- ³¯Â¥ ¸®½ºÆ® Å×ÀÌºí S  -------- -->\n"+
+					    "<!-- -------- ï¿½ï¿½Â¥ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìºï¿½ S  -------- -->\n"+
 						"<table width=\"168\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"E5E5E5\">\n"
 		        ); 
 		
@@ -119,7 +119,7 @@
 		        }
 		        str_buffer +=
 		                "</table>\n" +
-		                "<!-- -------- ³¯Â¥ ¸®½ºÆ® Å×ÀÌºí E  -------- -->\n"+
+		                "<!-- -------- ï¿½ï¿½Â¥ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìºï¿½ E  -------- -->\n"+
 		                "</td>\n</tr>\n</table>\n</td>\n</tr>\n</table>\n" +
 		                "</body>\n" +
 		                "</html>\n";
@@ -136,16 +136,17 @@
 
 		function str2dt (str_datetime,str_target)
 		{
-			var re_date = /^(\d+)\-(\d+)\-(\d+)$/; 
+			var re_date = /^(\d+)\-(\d+)\-(\d+)$/;
 	        if (!re_date.exec(str_datetime))
-				return errorTurn("³¯Â¥ Çü½ÄÀÌ Àß¸ø µÇ¾ú½À´Ï´Ù. Çü½Ä('YYYYMMDD')",str_target); 
+				return errorTurn("ï¿½ï¿½Â¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½('YYYYMMDD')",str_target); 
 
 			return (new Date (RegExp.$1, RegExp.$2-1, RegExp.$3)); 
 		}
 		
 		function dt2dtstr (dt_datetime)
 		{
-			return(new String(""+dt_datetime.getFullYear()+"-"+(dt_datetime.getMonth()+1)+"-"+dt_datetime.getDate()+""));
+			return(new String(""+dt_datetime.getFullYear()+(dt_datetime.getMonth()+1)+dt_datetime.getDate()+""));
+//			return(new String(""+dt_datetime.getFullYear()+"-"+(dt_datetime.getMonth()+1)+"-"+dt_datetime.getDate()+""));
 		}
 		
 		function tuning2dt (str_datetime,str_target)
@@ -157,7 +158,8 @@
 			if(mo.indexOf('0')==0) mo = mo.substr(1,1);
 			if(dy.indexOf('0')==0) dy = dy.substr(1,1);
 			
-			return (str2dt(new String(""+yr+"-"+mo+"-"+dy+""),str_target));
+			return (str2dt(new String(""+yr+mo+dy+""),str_target));
+//			return (str2dt(new String(""+yr+"-"+mo+"-"+dy+""),str_target));
 		}
 		
 		function tuning (dt_datetime)
@@ -169,6 +171,7 @@
 	        if( dt_datetime.getDate().toString().length==1) dy = "0" + dt_datetime.getDate().toString();
 	        else dy = dt_datetime.getDate().toString();
 	        return(new String(""+dt_datetime.getFullYear()+mo+dy+"")); 
+//	        return(new String(""+dt_datetime.getFullYear()+mo+dy+"")); 
 		}
 		
 		function tuning_date (dt_datetime)
@@ -179,7 +182,8 @@
 	        else mo = (dt_datetime.getMonth()+1).toString();
 	        if( dt_datetime.getDate().toString().length==1) dy = "0" + dt_datetime.getDate().toString();
 	        else dy = dt_datetime.getDate().toString();
-	        return(new String(""+dt_datetime.getFullYear()+"-"+mo+"-"+dy+"")); 
+	        return(new String(""+dt_datetime.getFullYear()+mo+dy+""));
+//	        return(new String(""+dt_datetime.getFullYear()+"-"+mo+"-"+dy+""));  
 		}
 
 		function errorTurn(x,str_target)
