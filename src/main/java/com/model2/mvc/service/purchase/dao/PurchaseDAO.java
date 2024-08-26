@@ -64,7 +64,7 @@ public class PurchaseDAO extends AbstractDAO {
 				purchaseVO.setTranCode(rs.getString("tran_status_code"));
 				purchaseVO.setOrderDate(rs.getDate("order_date"));
 				
-				/* 받을 때 YYMMDD 식으로 받게끔 수정필요 */
+				/* 받을 때 YYYYMMDD 식으로 받게끔 수정필요 */
 				purchaseVO.setDlvyDate(rs.getString("dlvy_date"));
 				
 				System.out.println("\t찾은 purchaseVO= "+purchaseVO);
