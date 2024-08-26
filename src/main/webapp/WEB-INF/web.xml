@@ -9,7 +9,7 @@
 	
 	<context-param>
 		<param-name>pageSize</param-name>
-		<param-value>3</param-value>
+		<param-value>5</param-value>
 	</context-param>
 
 	<filter>
