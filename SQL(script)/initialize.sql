@@ -33,6 +33,7 @@ CREATE TABLE product (
 	price 							NUMBER(10),
 	image_file 					VARCHAR2(100),
 	reg_date 					DATE,
+	pro_tran_code		CHAR(3)		DEFAULT '1', 
 	PRIMARY KEY(prod_no)
 );
 
