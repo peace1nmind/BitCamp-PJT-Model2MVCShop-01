@@ -2,6 +2,7 @@ package com.model2.mvc.view.product;
 // W D 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -43,20 +44,43 @@ public class GetProductAction extends Action {
 			}
 		}
 		
-		System.out.println("historyCookie= "+historyCookie);
+		String historyCookieValue = historyCookie.getValue();
+		String value = "";
 		
-		if (historyCookie.getValue() == null) {
-			historyCookie.setValue(prodNo);
+		if (historyCookieValue == null) {
+			value = prodNo;
+//			historyCookie.setValue(prodNo);
 			
 		} else {
-			if (!historyCookie.getValue().contains(prodNo)) {
-				historyCookie.setValue(prodNo+"&"+historyCookie.getValue());
+			if (!historyCookieValue.contains(prodNo)) {
+				value = prodNo+"&"+historyCookieValue;
+//				historyCookie.setValue(prodNo+"&"+historyCookieValue);
+				
+			} else {
+				for (String s : historyCookieValue.split(prodNo)) {
+					value += s;
+				}
+				
+				String[] splittedValue = value.split("&");
+				value = "";
+				
+				for (int i = 0; i < splittedValue.length; i++) {
+					if (i < splittedValue.length -1) {
+						value += splittedValue[i] + "&";
+					} else {
+						value += splittedValue[i];
+					}
+				}
+				
+				value = prodNo + "&" + value;
 				
 			}
 			
 		}
 		
-		System.out.println("historyCookieValue= "+historyCookie.getValue());
+		System.out.println("\tvalue= "+value);
+		historyCookie.setValue(value);
+//		System.out.println("historyCookieValue= "+historyCookieValue);
 		response.addCookie(historyCookie);
 		
 		if (menu == null) {
