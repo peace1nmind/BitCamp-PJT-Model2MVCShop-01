@@ -163,8 +163,7 @@ public class PurchaseDAO extends AbstractDAO {
 			rs = stmt.executeQuery();
 			System.out.println("\tstmt.executeQuery()");
 			
-			rs.last();
-			int lastRow = rs.getRow();
+			int lastRow = getCount("transaction");
 			rs.absolute(lastRow);
 			purchaseVO.setTranNo(rs.getInt("tran_no"));
 			purchaseVO.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
@@ -235,22 +234,22 @@ public class PurchaseDAO extends AbstractDAO {
 			// DB의 product 내용 ProductVO에 담고 list에 넣기
 			if (total > 0) {
 				for (int i = 0; i < searchVO.getPageUnit(); i++) {
-					PurchaseVO vo = new PurchaseVO();
-					vo.setTranNo(rs.getInt("tran_no"));
-					vo.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
-					vo.setBuyer(userService.getUser(rs.getString("buyer_id")));
-					vo.setPaymentOption(rs.getString("payment_option"));
-					vo.setReceiverName(rs.getString("receiver_name"));
-					vo.setReceiverPhone(rs.getString("receiver_phone"));
-					vo.setDlvyAddr(rs.getString("dlvy_addr"));
-					vo.setDlvyRequest(rs.getString("dlvy_request"));
-					vo.setTranCode(rs.getString("tran_status_code"));
-					vo.setOrderDate(rs.getDate("order_date"));
-					vo.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
+					PurchaseVO purchaseVO = new PurchaseVO();
+					purchaseVO.setTranNo(rs.getInt("tran_no"));
+					purchaseVO.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
+					purchaseVO.setBuyer(userService.getUser(rs.getString("buyer_id")));
+					purchaseVO.setPaymentOption(rs.getString("payment_option"));
+					purchaseVO.setReceiverName(rs.getString("receiver_name"));
+					purchaseVO.setReceiverPhone(rs.getString("receiver_phone"));
+					purchaseVO.setDlvyAddr(rs.getString("dlvy_addr"));
+					purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
+					purchaseVO.setTranCode(rs.getString("tran_status_code"));
+					purchaseVO.setOrderDate(rs.getDate("order_date"));
+					purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
 					
-					System.out.println(vo);
+					System.out.println(purchaseVO);
 					
-					list.add(vo);
+					list.add(purchaseVO);
 					
 					if (!rs.next()) {
 						break;

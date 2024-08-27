@@ -102,8 +102,7 @@ public class ProductDAO extends AbstractDAO {
 			rs = stmt.executeQuery();
 			System.out.println("\tstmt.executeQuery()");
 			
-			rs.last();
-			int lastRow = rs.getRow();
+			int lastRow = getCount("product");
 			rs.absolute(lastRow);
 			productVO.setProdNo(rs.getInt("prod_no"));
 			productVO.setProdName(rs.getString("prod_name"));
