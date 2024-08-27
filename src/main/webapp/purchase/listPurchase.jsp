@@ -202,13 +202,13 @@
 						
 					<%	if (paging.isLeft()) { %>
 					
-							<a href="/listProduct.do?page=1">
+							<a href="/listPurchase.do?page=1">
 								<span>◀</span>
 							</a>
 							
 							&nbsp;
 							
-							<a href="/listProduct.do?page=<%= paging.getStart()-1 %>">
+							<a href="/listPurchase.do?page=<%= paging.getStart()-1 %>">
 								<span>이전</span>
 							</a>
 							
@@ -229,13 +229,13 @@
 							
 					<%	if (paging.isRight()) { %>
 							
-							<a href="/listProduct.do?page=<%= paging.getEnd()+1 %>">
+							<a href="/listPurchase.do?page=<%= paging.getEnd()+1 %>">
 								<span>다음</span>
 							</a>
 							
 							&nbsp;
 							
-							<a href="/listProduct.do?page=<%= totalPage %>">
+							<a href="/listPurchase.do?page=<%= totalPage %>">
 								<span>▶</span>
 							</a>
 							
@@ -250,6 +250,13 @@
 			</form>
 		
 		</div>
-	
+		
+		<br><br>
+		
+		<%	System.out.println("\tinclude 발생: listPurchaseHistory.jsp"); %>
+		<jsp:include page="listPurchaseHistory.jsp"></jsp:include>
+		
+		
+		
 	</body>
 </html>
