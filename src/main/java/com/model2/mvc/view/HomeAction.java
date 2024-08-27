@@ -16,7 +16,9 @@ public class HomeAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+			
+		System.out.println("\n>> HomeAction");
+		
 		return "redirect:/home.jsp";
 	}
 

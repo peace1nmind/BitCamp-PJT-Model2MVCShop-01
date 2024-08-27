@@ -18,7 +18,12 @@
  
 <table width="100%" height="50" border="0" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="800" height="30"><h2><a href="/home.do" target="rightFrame">Model2 MVC Shop</a></h2></td>
+    <td width="800" height="30">
+    	<h2><a href="/home.do" target="rightFrame" style="color: black; text-decoration: none;">
+    		Model2 MVC Shop
+   		</a></h2>
+  	</td>
+  	
     <td height="30" >&nbsp;</td>
   </tr>
   <tr>
