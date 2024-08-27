@@ -159,7 +159,9 @@
 								
 								if (tranCode == 3) { %>
 						
-									<a href="/updateTranCode.do?tranNo=<%= purchaseVO.getTranNo() %>&tranCode=3">
+									<a href="/updateTranCode.do?tranNo=<%= purchaseVO.getTranNo() %>
+																&tranCode=3
+																&page=<%= currentPage %>">
 										¹°°ÇµµÂø
 									</a>
 								

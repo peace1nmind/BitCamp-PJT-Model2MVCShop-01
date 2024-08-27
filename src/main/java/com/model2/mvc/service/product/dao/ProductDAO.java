@@ -186,7 +186,7 @@ public class ProductDAO extends AbstractDAO {
 			map.put("count", new Integer(total));
 			
 			// 1차로 검색 조건의 총 개수를 구하고 닫고 원하는 페이지의 위치를 다시 구함
-			close(stmt, rs);
+//			close(stmt, rs);
 			
 			sql += "WHERE rn BETWEEN ? AND ? ORDER BY prod_no";
 			System.out.println("\tSQL= "+sql);
