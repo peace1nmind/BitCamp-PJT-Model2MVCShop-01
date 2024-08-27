@@ -16,7 +16,6 @@ import com.model2.mvc.common.dao.AbstractDAO;
 import com.model2.mvc.service.product.vo.ProductVO;
 import com.model2.mvc.service.purchase.TranCodeMapper;
 
-// TODO productVO.proTranCode에 대한 설정고려 (DB에 넣을지, B/L에서만 다룰지)
 public class ProductDAO extends AbstractDAO {
 
 	// Field
@@ -141,29 +140,35 @@ public class ProductDAO extends AbstractDAO {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ProductVO> list = new ArrayList<ProductVO>();
 		
-		String sql = "SELECT * FROM product ";
+		String sql = "SELECT * FROM "
+					+ "(SELECT ROWNUM rn, product.* FROM product ";
 		
 		String searchConditon = searchVO.getSearchCondition();
 		String searchKeyword = searchVO.getSearchKeyword();
 		String condition = "prod_no";
 		
 		System.out.println("\tsearchConditon= "+searchConditon);
-		switch ((searchConditon==null)? "0" : searchConditon) {
-		case "0":	// 상품번호로 검색
+		
+		if (!(searchKeyword == null || searchKeyword.trim().equals(""))) {
 			
-			break;
-			
-		case "1":	// 상품명으로 검색
-			condition = "prod_name";
-			break;
-			
-		case "2":	// 상품가격으로 검색
-			condition = "price";
+			switch ((searchConditon==null)? "0" : searchConditon) {
+			case "0":	// 상품번호로 검색
+				sql += String.format("WHERE %s LIKE \'%%%s%%\' ", condition, searchKeyword);
+				break;
+				
+			case "1":	// 상품명으로 검색
+				condition = "prod_name";
+				sql += String.format("WHERE %s LIKE \'%%%s%%\' ", condition, searchKeyword);
+				break;
+				
+			case "2":	// 상품가격으로 검색
+				condition = "price";
+				sql += String.format("WHERE %s >= %s ", condition, searchKeyword);
+				break;
+			}
 		}
 		
-		if (searchKeyword != null) {
-			sql += String.format("WHERE %s =  '%s' ORDER BY prod_no", condition, searchKeyword);
-		}
+		sql+= ") ";
 		
 		System.out.println("\tSQL= "+sql);
 		
@@ -175,41 +180,86 @@ public class ProductDAO extends AbstractDAO {
 			rs = stmt.executeQuery();
 			System.out.println("\tstmt.executeQuery()");
 			
-			int total = getCount("product");
-			System.out.println("\tRow= "+total);
-			
-			// map에 "count"값 추가 : 전체 레코드의 수
+			rs.last();
+			int total = rs.getRow();
+			System.out.println("\ttotalRow= "+total);
 			map.put("count", new Integer(total));
-			System.out.println("map.get(\"count\")= "+map.get("count"));
 			
-			// 커서를 page, pageUnit을 이용하여 해당 페이지에 보여줘야할 유저의 첫번째 레코드로 이동
-			rs.absolute((searchVO.getPage() - 1) * searchVO.getPageUnit() + 1);
-			System.out.println("searchVO.getPage():" + searchVO.getPage());
-			System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
+			// 1차로 검색 조건의 총 개수를 구하고 닫고 원하는 페이지의 위치를 다시 구함
+			close(stmt, rs);
 			
-			// DB의 product 내용 ProductVO에 담고 list에 넣기
-			if (total > 0) {
-				for (int i = 0; i < searchVO.getPageUnit(); i++) {
-					ProductVO vo = new ProductVO();
-					vo.setProdNo(rs.getInt("prod_no"));
-					vo.setProdName(rs.getString("prod_name"));
-					vo.setProdDetail(rs.getString("prod_detail"));
-					vo.setManuDate(rs.getString("manufacture_day"));
-					vo.setPrice(rs.getInt("price"));
-					vo.setFileName(rs.getString("image_file"));
-					vo.setRegDate(rs.getDate("reg_date"));
-					vo.setProTranCode(rs.getString("pro_tran_code"));
-					
-					System.out.println(vo);
-					
-					list.add(vo);
-					
-					if (!rs.next()) {
-						break;
-					}
-					
-				}
+			sql += "WHERE rn BETWEEN ? AND ? ORDER BY prod_no";
+			System.out.println("\tSQL= "+sql);
+			
+			stmt = con.prepareStatement(sql);
+			
+			int startRow = (total==0)? 0 :(searchVO.getPage() - 1) * searchVO.getPageUnit() + 1;
+			int endRow = searchVO.getPage() * searchVO.getPageUnit();
+			
+			if (endRow > total) {
+				endRow = total;
+				
 			}
+			
+			stmt.setInt(1, startRow);
+			stmt.setInt(2, endRow);
+			System.out.println("\tstartRow= "+startRow+", endRow= "+endRow);
+			
+			rs = stmt.executeQuery();
+			System.out.println("\tstmt.executeQuery()");
+			
+			while (rs.next()) {
+				ProductVO productVO = new ProductVO();
+				productVO.setProdNo(rs.getInt("prod_no"));
+				productVO.setProdName(rs.getString("prod_name"));
+				productVO.setProdDetail(rs.getString("prod_detail"));
+				productVO.setManuDate(rs.getString("manufacture_day"));
+				productVO.setPrice(rs.getInt("price"));
+				productVO.setFileName(rs.getString("image_file"));
+				productVO.setRegDate(rs.getDate("reg_date"));
+				productVO.setProTranCode(rs.getString("pro_tran_code"));
+				
+				System.out.println(productVO);
+				
+				list.add(productVO);
+			}
+			
+//			rs.last();
+//			int total = rs.getRow();
+//			System.out.println("\tRow= "+total);
+//			
+//			// map에 "count"값 추가 : 전체 레코드의 수
+//			map.put("count", new Integer(total));
+//			System.out.println("map.get(\"count\")= "+map.get("count"));
+//			
+//			// 커서를 page, pageUnit을 이용하여 해당 페이지에 보여줘야할 유저의 첫번째 레코드로 이동
+//			rs.absolute((searchVO.getPage() - 1) * searchVO.getPageUnit() + 1);
+//			System.out.println("searchVO.getPage():" + searchVO.getPage());
+//			System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
+//			
+//			// DB의 product 내용 ProductVO에 담고 list에 넣기
+//			if (total > 0) {
+//				for (int i = 0; i < searchVO.getPageUnit(); i++) {
+//					ProductVO productVO = new ProductVO();
+//					productVO.setProdNo(rs.getInt("prod_no"));
+//					productVO.setProdName(rs.getString("prod_name"));
+//					productVO.setProdDetail(rs.getString("prod_detail"));
+//					productVO.setManuDate(rs.getString("manufacture_day"));
+//					productVO.setPrice(rs.getInt("price"));
+//					productVO.setFileName(rs.getString("image_file"));
+//					productVO.setRegDate(rs.getDate("reg_date"));
+//					productVO.setProTranCode(rs.getString("pro_tran_code"));
+//					
+//					System.out.println(productVO);
+//					
+//					list.add(productVO);
+//					
+//					if (!rs.next()) {
+//						break;
+//					}
+//					
+//				}
+//			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -361,6 +411,7 @@ public class ProductDAO extends AbstractDAO {
 			stmt.setInt(2, prodNo);
 			
 			rs = stmt.executeUpdate();
+			System.out.println("\tstmt.executeUpdate()");
 			
 			if (rs > 0) {
 				System.out.println("\t"+rs+" 행이 수정되었습니다.");

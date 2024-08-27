@@ -215,7 +215,10 @@
 						<td align="center">
 					
 					<%	for (int i=1; i<=totalPage; i++) { %>
-							<a href="/listProduct.do?page=<%= i %>&menu=<%= menu %>" 
+							<a href="/listProduct.do?page=<%= i %>
+													&menu=<%= menu %>
+													&searchCondition=<%= searchVO.getSearchCondition() %>
+													&searchKeyword=<%= searchVO.getSearchKeyword() %>" 
 							<%= (currentPage==i)? "style='font-weight: bold; font-size: 15px'" : ""%>>
 								<%= i %>
 							</a>

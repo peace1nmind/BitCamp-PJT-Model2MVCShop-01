@@ -97,7 +97,8 @@ public class UserDAO extends AbstractDAO {
 		ResultSet rs = stmt.executeQuery();
 		
 		// 검색된 모든 레코드의 개수
-		int total = getCount("users");
+		rs.last();
+		int total = rs.getRow();
 		System.out.println("\tRow= " + total);
 		
 		// map에 "count"값 추가 : 전체 레코드의 수
