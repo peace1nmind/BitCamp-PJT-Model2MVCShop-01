@@ -224,43 +224,6 @@ public class ProductDAO extends AbstractDAO {
 				list.add(productVO);
 			}
 			
-//			rs.last();
-//			int total = rs.getRow();
-//			System.out.println("\tRow= "+total);
-//			
-//			// map에 "count"값 추가 : 전체 레코드의 수
-//			map.put("count", new Integer(total));
-//			System.out.println("map.get(\"count\")= "+map.get("count"));
-//			
-//			// 커서를 page, pageUnit을 이용하여 해당 페이지에 보여줘야할 유저의 첫번째 레코드로 이동
-//			rs.absolute((searchVO.getPage() - 1) * searchVO.getPageUnit() + 1);
-//			System.out.println("searchVO.getPage():" + searchVO.getPage());
-//			System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
-//			
-//			// DB의 product 내용 ProductVO에 담고 list에 넣기
-//			if (total > 0) {
-//				for (int i = 0; i < searchVO.getPageUnit(); i++) {
-//					ProductVO productVO = new ProductVO();
-//					productVO.setProdNo(rs.getInt("prod_no"));
-//					productVO.setProdName(rs.getString("prod_name"));
-//					productVO.setProdDetail(rs.getString("prod_detail"));
-//					productVO.setManuDate(rs.getString("manufacture_day"));
-//					productVO.setPrice(rs.getInt("price"));
-//					productVO.setFileName(rs.getString("image_file"));
-//					productVO.setRegDate(rs.getDate("reg_date"));
-//					productVO.setProTranCode(rs.getString("pro_tran_code"));
-//					
-//					System.out.println(productVO);
-//					
-//					list.add(productVO);
-//					
-//					if (!rs.next()) {
-//						break;
-//					}
-//					
-//				}
-//			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			

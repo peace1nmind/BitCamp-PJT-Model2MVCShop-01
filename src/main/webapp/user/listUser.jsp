@@ -23,6 +23,14 @@
 		if(total%searchVO.getPageUnit() >0)
 			totalPage += 1;
 	}
+	
+	if (searchVO.getSearchCondition() == null) {
+		searchVO.setSearchCondition("0");
+	}
+	
+	if (searchVO.getSearchKeyword() == null) {
+		searchVO.setSearchKeyword("");
+	}
 %>
 
 <html>
@@ -162,7 +170,12 @@ function fncGetUserList(){
 		<%
 			for(int i=1;i<=totalPage;i++){
 		%>
-			<a href="/listUser.do?page=<%=i%>"><%=i %></a>
+			<a href="/listUser.do?page=<%=i%>
+								&searchCondition=<%= searchVO.getSearchCondition() %>
+								&searchKeyword=<%= searchVO.getSearchKeyword() %>" 
+			<%= (currentPage==i)? "style='font-weight: bold; font-size: 15px'" : ""%>>
+				<%=i %>
+			</a>
 		<%
 			}
 		%>	
