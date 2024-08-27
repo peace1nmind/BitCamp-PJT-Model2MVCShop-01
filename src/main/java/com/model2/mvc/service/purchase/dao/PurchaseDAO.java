@@ -68,7 +68,62 @@ public class PurchaseDAO extends AbstractDAO {
 				System.out.println("\t찾은 purchaseVO= "+purchaseVO);
 				
 			} else {
-				System.out.println("\ntranNo= "+tranNo+"인 상품은 등록되어있지 않습니다.");
+				System.out.println("\ttranNo= "+tranNo+"인 상품은 등록되어있지 않습니다.");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(con, stmt, rs);
+			
+		}
+		
+		return purchaseVO;
+	}
+	
+	// prodNo로 purchaseVO 얻는 메서드
+	public PurchaseVO findPurchaseByProd(int prodNo) {
+		
+		System.out.println("PurchaseDAO().findPurchase(tranNo)");
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		PurchaseVO purchaseVO = new PurchaseVO();
+		ProductService productService = new ProductServiceImpl();
+		UserService userService = new UserServiceImpl();
+		
+		String sql = "SELECT * FROM transaction WHERE prod_no=?";
+		
+		try {
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, prodNo);
+			
+			rs = stmt.executeQuery();
+			System.out.println("\tstmt.executeQuery()");
+			
+			if (rs.next()) {
+				purchaseVO.setTranNo(rs.getInt("tran_no"));
+				purchaseVO.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
+				purchaseVO.setBuyer(userService.getUser(rs.getString("buyer_id")));
+				purchaseVO.setPaymentOption(rs.getString("payment_option"));
+				purchaseVO.setReceiverName(rs.getString("receiver_name"));
+				purchaseVO.setReceiverPhone(rs.getString("receiver_phone"));
+				purchaseVO.setDlvyAddr(rs.getString("dlvy_addr"));
+				purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
+				purchaseVO.setTranCode(rs.getString("tran_status_code"));
+				purchaseVO.setOrderDate(rs.getDate("order_date"));
+				purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
+				
+				System.out.println("\t찾은 purchaseVO= "+purchaseVO);
+				
+			} else {
+				System.out.println("\tprodNo= "+prodNo+"인 상품은 등록되어있지 않습니다.");
 				
 			}
 			
@@ -150,8 +205,6 @@ public class PurchaseDAO extends AbstractDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		int total = 0;
-		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		List<PurchaseVO> list = new ArrayList<PurchaseVO>();
 		
@@ -166,8 +219,8 @@ public class PurchaseDAO extends AbstractDAO {
 			
 			rs = stmt.executeQuery();
 			
-			rs.last();
-			total = rs.getRow();
+			int total = getCount("transaction");
+			System.out.println("\tRow= "+total);
 			
 			// map에 "count"값 추가 : 전체 레코드의 수
 			map.put("count", new Integer(total));

@@ -14,13 +14,13 @@ public abstract class AbstractDAO {
 
 	// Constructor
 	public AbstractDAO() {
-		System.out.println("\n/com.model2.mvc.common.dao.AbstractDAO");
+		System.out.println("\ncom.model2.mvc.common.dao\nAbstractDAO");
 	}
 
 	// Method
 	public Connection connect() {
 		
-		System.out.println("\tnew AbstractDAO().connect()");
+		System.out.println("AbstractDAO().connect()");
 		
 		Connection con = null;
 		
@@ -37,7 +37,7 @@ public abstract class AbstractDAO {
 	
 	public void close(Connection con, PreparedStatement stmt) {
 		
-		System.out.println("\tnew AbstractDAO().close(con, stmt)");
+		System.out.println("AbstractDAO().close(con, stmt)");
 		
 		if (stmt != null) {
 			try {
@@ -59,7 +59,7 @@ public abstract class AbstractDAO {
 	
 	public void close(Connection con, PreparedStatement stmt, ResultSet rs) {
 		
-		System.out.println("\tnew AbstractDAO().close(con, stmt, rs)");
+		System.out.println("AbstractDAO().close(con, stmt, rs)");
 		
 		if (rs != null) {
 			try {
@@ -89,7 +89,7 @@ public abstract class AbstractDAO {
 	
 	public void close(PreparedStatement stmt, ResultSet rs) {
 		
-		System.out.println("\tnew AbstractDAO().close(con, stmt, rs)");
+		System.out.println("AbstractDAO().close(con, stmt, rs)");
 		
 		if (rs != null) {
 			try {
@@ -107,6 +107,44 @@ public abstract class AbstractDAO {
 			}
 		}
 		
+	}
+	
+	/* 전체 ROW의 개수 반환하는 함수 DAO에서 LIST 얻을 때 MAP에 넣던 기능을 분리 */
+	public int getCount(String table){
+		
+		System.out.println("AbstractDAO().getCount(table)");
+		
+		int total = 0;
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT COUNT(*) FROM "+table;
+		System.out.println("\tSQL= "+sql);
+		
+		try {
+			stmt = con.prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			System.out.println("\tstmt.executeQuery()");
+
+			rs.next();
+			total = rs.getInt("COUNT(*)");
+			System.out.println("\ttotal= "+total);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(con, stmt, rs);
+			
+		}
+		
+		return total;
 	}
 
 }

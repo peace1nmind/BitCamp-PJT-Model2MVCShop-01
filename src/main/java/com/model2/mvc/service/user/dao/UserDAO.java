@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.common.dao.AbstractDAO;
 import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.service.user.vo.UserVO;
 
 
 // 유저들이 Dao에서 하는 일을 모듈화
 // INSERT, SELECT, UPDATE
-public class UserDAO {
+public class UserDAO extends AbstractDAO {
 	
 	public UserDAO(){
 		System.out.println("\ncom.model2.mvc.service.user.dao.UserDAO");
@@ -96,9 +97,8 @@ public class UserDAO {
 		ResultSet rs = stmt.executeQuery();
 		
 		// 검색된 모든 레코드의 개수
-		rs.last();
-		int total = rs.getRow();
-		System.out.println("로우의 수:" + total);
+		int total = getCount("users");
+		System.out.println("\tRow= " + total);
 		
 		// map에 "count"값 추가 : 전체 레코드의 수
 		HashMap<String,Object> map = new HashMap<String,Object>();

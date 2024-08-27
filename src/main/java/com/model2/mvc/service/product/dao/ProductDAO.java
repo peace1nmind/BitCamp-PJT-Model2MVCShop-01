@@ -139,8 +139,6 @@ public class ProductDAO extends AbstractDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		int total = 0;
-		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ProductVO> list = new ArrayList<ProductVO>();
 		
@@ -178,8 +176,7 @@ public class ProductDAO extends AbstractDAO {
 			rs = stmt.executeQuery();
 			System.out.println("\tstmt.executeQuery()");
 			
-			rs.last();
-			total = rs.getRow();
+			int total = getCount("product");
 			System.out.println("\tRow= "+total);
 			
 			// map에 "count"값 추가 : 전체 레코드의 수
