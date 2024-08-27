@@ -1,3 +1,4 @@
+<%@page import="com.model2.mvc.service.Paging"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.model2.mvc.service.purchase.TranCodeMapper"%>
 <%@page import="javax.swing.event.SwingPropertyChangeSupport"%>
@@ -66,6 +67,9 @@
 	
 	TranCodeMapper tranCodeMapper = TranCodeMapper.getInstance();
 	Map<String, String> tranCodeMap = tranCodeMapper.getMap();
+	
+	Paging paging = (Paging) request.getAttribute("paging");
+	paging.calculatePage(totalPage, currentPage);
 	
 %>
     
@@ -191,8 +195,8 @@
 						<td></td>
 						<td align="left"><%= productVO.getRegDate() %></td>
 						<td></td>
+						
 						<% String tranCode = productVO.getProTranCode().trim(); %>
-						<% System.out.println("\tproTranCode= "+tranCode); %>
 						<td align="left">
 							<%= tranCodeMap.get(tranCode) %>
 							
@@ -214,7 +218,29 @@
 					<tr>
 						<td align="center">
 					
-					<%	for (int i=1; i<=totalPage; i++) { %>
+					<%	if (paging.isLeft()) { %>
+					
+							<a href="/listProduct.do?page=1
+													&menu=<%= menu %>
+													&searchCondition=<%= searchVO.getSearchCondition() %>
+													&searchKeyword=<%= searchVO.getSearchKeyword() %>">
+								<span>◀</span>
+							</a>
+							
+							&nbsp;
+							
+							<a href="/listProduct.do?page=<%= paging.getStart()-1 %>
+													&menu=<%= menu %>
+													&searchCondition=<%= searchVO.getSearchCondition() %>
+													&searchKeyword=<%= searchVO.getSearchKeyword() %>">
+								<span>이전</span>
+							</a>
+							
+					<%	} %>
+					
+							&nbsp;&nbsp;
+							
+					<%	for (int i=paging.getStart(); i<=paging.getEnd(); i++) { %>
 							<a href="/listProduct.do?page=<%= i %>
 													&menu=<%= menu %>
 													&searchCondition=<%= searchVO.getSearchCondition() %>
@@ -223,7 +249,29 @@
 								<%= i %>
 							</a>
 					<%	} %>
-						
+					
+							&nbsp;&nbsp;
+							
+					<%	if (paging.isRight()) { %>
+							
+							<a href="/listProduct.do?page=<%= paging.getEnd()+1 %>
+													&menu=<%= menu %>
+													&searchCondition=<%= searchVO.getSearchCondition() %>
+													&searchKeyword=<%= searchVO.getSearchKeyword() %>">
+								<span>다음</span>
+							</a>
+							
+							&nbsp;
+							
+							<a href="/listProduct.do?page=<%= totalPage %>
+													&menu=<%= menu %>
+													&searchCondition=<%= searchVO.getSearchCondition() %>
+													&searchKeyword=<%= searchVO.getSearchKeyword() %>">
+								<span>▶</span>
+							</a>
+							
+					<%	} %>
+					
 				    	</td>
 					</tr>
 				</table>

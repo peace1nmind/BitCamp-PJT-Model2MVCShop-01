@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.Paging;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 
@@ -42,6 +43,9 @@ public class ListProductAction extends Action {
 		request.setAttribute("map", map);
 		System.out.println("\tsearchVO= "+searchVO);
 		request.setAttribute("searchVO", searchVO);
+		
+		Paging paging = new Paging(getServletContext());
+		request.setAttribute("paging", paging);
 		
 		return "forward:/product/listProduct.jsp";
 	}
