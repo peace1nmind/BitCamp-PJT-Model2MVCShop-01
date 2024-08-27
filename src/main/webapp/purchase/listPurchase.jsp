@@ -98,7 +98,7 @@
 					<tr>
 						<td colspan="11" bgcolor="808285" height="1"></td>
 					</tr>
-				
+					
 					<%
 						int no = purchaseList.size();
 					
@@ -173,7 +173,19 @@
 						
 					<%	} %>
 					
-						
+					<%	if (total==0) { %>
+						<tr class="ct_list_pop">
+							<table>
+								<tr>
+									<td></td>
+									<td align="center">
+										<h3>구매이력이 없습니다.</h3>
+									</td>
+								</tr>
+							</table>
+						</tr>
+					<%	} %>
+
 					
 				</table>
 				

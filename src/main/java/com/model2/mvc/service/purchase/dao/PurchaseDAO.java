@@ -2,7 +2,6 @@ package com.model2.mvc.service.purchase.dao;
 // W D 
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -211,56 +210,67 @@ public class PurchaseDAO extends AbstractDAO {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		List<PurchaseVO> list = new ArrayList<PurchaseVO>();
 		
-		String sql = "SELECT * FROM transaction WHERE buyer_id=? ORDER BY order_date DESC";
+		String sql = "SELECT * FROM "
+					+"(SELECT ROWNUM rn, transaction.* "
+					+ "FROM transaction WHERE buyer_id='"+buyerId.trim()+"' "
+					+ "ORDER BY order_date DESC) ";
 		System.out.println("\tSQL= "+sql);
 		
 		try {
 			stmt = con.prepareStatement(sql, 
 										ResultSet.TYPE_SCROLL_INSENSITIVE, 
 										ResultSet.CONCUR_UPDATABLE);
-			stmt.setString(1, buyerId);
 			
 			rs = stmt.executeQuery();
+			System.out.println("\tstmt.executeQuery()");
 			
-			int total = getCount("transaction");
-			System.out.println("\tRow= "+total);
+			rs.last();
+			int total = rs.getRow();
+			System.out.println("\ttotalRow= "+total);
 			
 			// map에 "count"값 추가 : 전체 레코드의 수
 			map.put("count", new Integer(total));
-			System.out.println("map.get(\"count\")= "+map.get("count"));
 			
-			// 커서를 page, pageUnit을 이용하여 해당 페이지에 보여줘야할 유저의 첫번째 레코드로 이동
-			rs.absolute((searchVO.getPage() - 1) * searchVO.getPageUnit() + 1);
-			System.out.println("searchVO.getPage():" + searchVO.getPage());
-			System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
+			close(stmt, rs);
 			
+			sql += "WHERE rn BETWEEN ? AND ? ";
+			System.out.println("\tSQL= "+sql);
+			
+			stmt = con.prepareStatement(sql);
+			
+			int startRow = (total==0)? 0 :(searchVO.getPage() - 1) * searchVO.getPageUnit() + 1;
+			int endRow = searchVO.getPage() * searchVO.getPageUnit();
+			
+			if (endRow > total) {
+				endRow = total;
+				
+			}
+			
+			stmt.setInt(1, startRow);
+			stmt.setInt(2, endRow);
+			System.out.println("\tstartRow= "+startRow+", endRow= "+endRow);
+			
+			rs = stmt.executeQuery();
+			System.out.println("\tstmt.executeQuery()");
 
-			// DB의 product 내용 ProductVO에 담고 list에 넣기
-			if (total > 0) {
-				for (int i = 0; i < searchVO.getPageUnit(); i++) {
-					PurchaseVO purchaseVO = new PurchaseVO();
-					purchaseVO.setTranNo(rs.getInt("tran_no"));
-					purchaseVO.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
-					purchaseVO.setBuyer(userService.getUser(rs.getString("buyer_id")));
-					purchaseVO.setPaymentOption(rs.getString("payment_option"));
-					purchaseVO.setReceiverName(rs.getString("receiver_name"));
-					purchaseVO.setReceiverPhone(rs.getString("receiver_phone"));
-					purchaseVO.setDlvyAddr(rs.getString("dlvy_addr"));
-					purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
-					purchaseVO.setTranCode(rs.getString("tran_status_code"));
-					purchaseVO.setOrderDate(rs.getDate("order_date"));
-					System.out.println("\tdlvy_date= "+rs.getString("dlvy_date"));
-					purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
-					
-					System.out.println(purchaseVO);
-					
-					list.add(purchaseVO);
-					
-					if (!rs.next()) {
-						break;
-					}
-					
-				}
+			while (rs.next()) {
+				PurchaseVO purchaseVO = new PurchaseVO();
+				purchaseVO.setTranNo(rs.getInt("tran_no"));
+				purchaseVO.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
+				purchaseVO.setBuyer(userService.getUser(rs.getString("buyer_id")));
+				purchaseVO.setPaymentOption(rs.getString("payment_option"));
+				purchaseVO.setReceiverName(rs.getString("receiver_name"));
+				purchaseVO.setReceiverPhone(rs.getString("receiver_phone"));
+				purchaseVO.setDlvyAddr(rs.getString("dlvy_addr"));
+				purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
+				purchaseVO.setTranCode(rs.getString("tran_status_code"));
+				purchaseVO.setOrderDate(rs.getDate("order_date"));
+				System.out.println("\tdlvy_date= "+rs.getString("dlvy_date"));
+				purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
+				
+				System.out.println(purchaseVO);
+				
+				list.add(purchaseVO);
 			}
 			
 		} catch (SQLException e) {
@@ -279,6 +289,7 @@ public class PurchaseDAO extends AbstractDAO {
 		return map;	
 	}
 	
+	
 	// 판매목록 보기를 위한 DBMS
 	public HashMap<String, Object> getSaleList(SearchVO searchVO) {
 		
@@ -287,6 +298,7 @@ public class PurchaseDAO extends AbstractDAO {
 		
 		return null;	
 	}
+	
 	
 	// 구매를 위한 DBMS
 	public void insertPurchase(PurchaseVO purchaseVO) {
@@ -340,6 +352,7 @@ public class PurchaseDAO extends AbstractDAO {
 		
 	}
 	
+	
 	// 구매정보 수정을 위한 DBMS
 	public void updatePurchase(PurchaseVO purchaseVO) {
 		
@@ -391,6 +404,7 @@ public class PurchaseDAO extends AbstractDAO {
 		}
 		
 	}
+	
 	
 	// 구매상태코드 수정을 위한 DBMS
 	// purchaseVO에 수정하여 넣어줘야함
