@@ -34,6 +34,7 @@ public class LoginAction extends Action{
 		
 		else { 
 			HttpSession session=request.getSession();
+			session.setMaxInactiveInterval(60 * 60);		// 세션 1시간 설정
 			session.setAttribute("user", dbVO);
 		}
 		
