@@ -29,7 +29,20 @@
 		<script type="text/javascript">
 			<!--
 			function fncAddPurchase() {
-				document.addPurchase.submit();
+				let dlvyDateValue = document.addPurchase.dlvyDate.value;
+				
+				if (dlvyDateValue.length==0) {
+					alert("배송희망일자를 입력해주세요")
+					
+				} else {
+					document.addPurchase.submit();
+				}
+			}
+			
+			function dateFormate(date) {
+				var dateForm = date.split("-")[0] + date.split("-")[1] + date.split("-")[2];
+				
+				document.addPurchase.dlvyDate.value = dateForm;
 			}
 			-->
 			
@@ -202,7 +215,7 @@
 					<input 	type="text" readonly="readonly" name="dlvyDate" class="ct_input_g" 
 									style="width: 100px; height: 19px" maxLength="20"/>
 					<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
-								onclick="show_calendar('document.addPurchase.dlvyDate', document.addPurchase.dlvyDate.value)"/>
+								onclick="show_calendar('document.addPurchase.dlvyDate', document.addPurchase.dlvyDate.value);dateFormate(document.addPurchase.dlvyDate.value);"/>
 				</td>
 			</tr>
 			<tr>

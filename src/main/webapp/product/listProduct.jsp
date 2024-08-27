@@ -198,7 +198,7 @@
 							
 						<% if (menu.equals("manage") && tranCode.equals("2")) { %>
 							&nbsp;
-							<a href="/updateTranCodeByProd.do?prodNo=<%= productVO.getProdNo() %>">배송하기</a>
+							<a href="/updateTranCodeByProd.do?page=<%= currentPage %>&prodNo=<%= productVO.getProdNo() %>">배송하기</a>
 						<% } %>
 						
 						</td>	
@@ -215,7 +215,10 @@
 						<td align="center">
 					
 					<%	for (int i=1; i<=totalPage; i++) { %>
-							<a href="/listProduct.do?page=<%= i %>&menu=<%= menu %>"><%= i %></a>
+							<a href="/listProduct.do?page=<%= i %>&menu=<%= menu %>" 
+							<%= (currentPage==i)? "style='font-weight: bold; font-size: 15px'" : ""%>>
+								<%= i %>
+							</a>
 					<%	} %>
 						
 				    	</td>

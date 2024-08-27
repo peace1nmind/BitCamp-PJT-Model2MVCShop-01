@@ -19,5 +19,7 @@ public interface ProductService {
 	
 	public ProductVO updateProduct(ProductVO productVO);
 	
+	public void updateTranCode(int prodNo, String proTranCode);
+	
 }
 // class end

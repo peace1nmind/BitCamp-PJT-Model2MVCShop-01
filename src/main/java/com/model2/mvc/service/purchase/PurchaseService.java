@@ -12,9 +12,11 @@ public interface PurchaseService {
 	
 	public PurchaseVO getPurchase(int tranNo);
 	
-	public HashMap getPurchaseList(SearchVO searchVO, String tranCode);
+	public PurchaseVO getPurchaseByProd(int prodNo);
 	
-	public HashMap getSaleList(SearchVO searchVO);
+	public HashMap<String, Object> getPurchaseList(SearchVO searchVO, String tranCode);
+	
+	public HashMap<String, Object> getSaleList(SearchVO searchVO);
 	
 	public PurchaseVO updatePurchase(PurchaseVO puchaseVO);
 	

@@ -56,6 +56,15 @@ public class ProductServiceImpl implements ProductService {
 		
 		return prodVO;
 	}
+	
+	// 상품상태 수정을 위한 BL
+	@Override
+	public void updateTranCode(int prodNo, String proTranCode) {
+		
+		productDAO.updateTranCode(prodNo, proTranCode);
+		
+	}
+	
 
 }
 // class end

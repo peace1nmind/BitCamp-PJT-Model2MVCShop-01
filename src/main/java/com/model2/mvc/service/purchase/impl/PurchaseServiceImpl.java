@@ -28,7 +28,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		
 		purchaseDAO.insertPurchase(purchaseVO);
 		System.out.println("\t"+purchaseVO+"\n\tDB 등록완료");
-		PurchaseVO purVO = purchaseDAO.findPurchase();
+		PurchaseVO purVO = purchaseDAO.findPurchaseByProd(purchaseVO.getPurchaseProd().getProdNo());
 		System.out.println("\tDB 내용= "+purVO);
 		
 		productDAO.updateTranCode(	purVO.getPurchaseProd().getProdNo(),
@@ -43,6 +43,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 		
 		return purchaseDAO.findPurchase(tranNo);
 	}
+	
+	// 
+	@Override
+	public PurchaseVO getPurchaseByProd(int prodNo) {
+		
+		return purchaseDAO.findPurchaseByProd(prodNo);
+	}
+	
 	
 	// 구매목록 보기를 위한 BL
 	@Override
@@ -74,7 +82,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public void updateTranCode(PurchaseVO purchaseVO) {
 		
-
+		purchaseDAO.updateTranCode(purchaseVO);
 	}
 
 }

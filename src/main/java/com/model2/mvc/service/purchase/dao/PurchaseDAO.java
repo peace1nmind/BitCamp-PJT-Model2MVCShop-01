@@ -9,11 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.dao.AbstractDAO;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
+import com.model2.mvc.service.purchase.TranCodeMapper;
 import com.model2.mvc.service.purchase.vo.PurchaseVO;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
@@ -141,57 +144,58 @@ public class PurchaseDAO extends AbstractDAO {
 		return purchaseVO;
 	}
 	
-	// 최근 등록된 구매정보 조회를 위한 DBMS
-	public PurchaseVO findPurchase() {
-		
-		System.out.println("PurchaseDAO().findPurchase()");
-		
-		Connection con = connect();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		PurchaseVO purchaseVO = new PurchaseVO();
-		ProductService productService = new ProductServiceImpl();
-		UserService userService = new UserServiceImpl();
-		
-		String sql = "SELECT * FROM transaction ORDER BY tran_no";
-		
-		try {
-			stmt = con.prepareStatement(sql, 
-										ResultSet.TYPE_SCROLL_INSENSITIVE, 
-										ResultSet.CONCUR_UPDATABLE);
-			
-			rs = stmt.executeQuery();
-			System.out.println("\tstmt.executeQuery()");
-			
-			int lastRow = getCount("transaction");
-			rs.absolute(lastRow);
-			purchaseVO.setTranNo(rs.getInt("tran_no"));
-			purchaseVO.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
-			purchaseVO.setBuyer(userService.getUser(rs.getString("buyer_id")));
-			purchaseVO.setPaymentOption(rs.getString("payment_option"));
-			purchaseVO.setReceiverName(rs.getString("receiver_name"));
-			purchaseVO.setReceiverPhone(rs.getString("receiver_phone"));
-			purchaseVO.setDlvyAddr(rs.getString("dlvy_addr"));
-			purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
-			purchaseVO.setTranCode(rs.getString("tran_status_code"));
-			purchaseVO.setOrderDate(rs.getDate("order_date"));
-			purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
-			
-			System.out.println("\t최근 등록내용= "+purchaseVO);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-		} finally {
-			close(con, stmt, rs);
-			
-		}
-		
-		return purchaseVO;
-	}
+	// findPurcahseByProd로 대체
+//	// 최근 등록된 구매정보 조회를 위한 DBMS
+//	public PurchaseVO findPurchase() {
+//		
+//		System.out.println("PurchaseDAO().findPurchase()");
+//		
+//		Connection con = connect();
+//		PreparedStatement stmt = null;
+//		ResultSet rs = null;
+//		PurchaseVO purchaseVO = new PurchaseVO();
+//		ProductService productService = new ProductServiceImpl();
+//		UserService userService = new UserServiceImpl();
+//		
+//		String sql = "SELECT * FROM transaction ORDER BY tran_no";
+//		
+//		try {
+//			stmt = con.prepareStatement(sql, 
+//										ResultSet.TYPE_SCROLL_INSENSITIVE, 
+//										ResultSet.CONCUR_UPDATABLE);
+//			
+//			rs = stmt.executeQuery();
+//			System.out.println("\tstmt.executeQuery()");
+//			
+//			int lastRow = getCount("transaction");
+//			rs.absolute(lastRow);
+//			purchaseVO.setTranNo(rs.getInt("tran_no"));
+//			purchaseVO.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
+//			purchaseVO.setBuyer(userService.getUser(rs.getString("buyer_id")));
+//			purchaseVO.setPaymentOption(rs.getString("payment_option"));
+//			purchaseVO.setReceiverName(rs.getString("receiver_name"));
+//			purchaseVO.setReceiverPhone(rs.getString("receiver_phone"));
+//			purchaseVO.setDlvyAddr(rs.getString("dlvy_addr"));
+//			purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
+//			purchaseVO.setTranCode(rs.getString("tran_status_code"));
+//			purchaseVO.setOrderDate(rs.getDate("order_date"));
+//			purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
+//			
+//			System.out.println("\t최근 등록내용= "+purchaseVO);
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			
+//		} finally {
+//			close(con, stmt, rs);
+//			
+//		}
+//		
+//		return purchaseVO;
+//	}
 	
 	// 구매목록 보기를 위한 DBMS
 	public HashMap<String, Object> getPurchaseList(SearchVO searchVO, String buyerId) {
@@ -245,6 +249,7 @@ public class PurchaseDAO extends AbstractDAO {
 					purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
 					purchaseVO.setTranCode(rs.getString("tran_status_code"));
 					purchaseVO.setOrderDate(rs.getDate("order_date"));
+					System.out.println("\tdlvy_date= "+rs.getString("dlvy_date"));
 					purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
 					
 					System.out.println(purchaseVO);
@@ -388,12 +393,65 @@ public class PurchaseDAO extends AbstractDAO {
 	}
 	
 	// 구매상태코드 수정을 위한 DBMS
+	// purchaseVO에 수정하여 넣어줘야함
 	public void updateTranCode(PurchaseVO purchaseVO) {
 		
 		System.out.println("PurchaseDAO().updateTranCode(purchaseVO)");
 		System.out.println("\tpurchaseVO= "+purchaseVO);
 		
+		Map<String, String> map = TranCodeMapper.getInstance().getMap();
+		Set<String> keySet = map.keySet();
+		
+		try {
+			if (keySet.contains(purchaseVO.getTranCode())) {
+				System.out.println("\t변경하려는 상품상태= "+map.get(purchaseVO.getTranCode()));
+				
+			} else {
+				throw new Exception("올바르지 않는 proTranCode입니다");
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		int rs = -1;
+		
+		String sql = "UPDATE transaction SET tran_status_code=? WHERE tran_no=?";
+		System.out.println("\tSQL= "+sql);
+		
+		try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, purchaseVO.getTranCode());
+			stmt.setInt(2, purchaseVO.getTranNo());
+			
+			rs = stmt.executeUpdate();
+			System.out.println("\tstmt.executeUpdate()");
+			
+			if (rs > 0) {
+				System.out.println("\t"+rs+" 행이 수정되었습니다.");
+				
+			} else {
+				System.out.println("\t수정 실패하였습니다.");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(con, stmt);
+			
+		}
+
 	}
+	
 	
 }
 // class end
