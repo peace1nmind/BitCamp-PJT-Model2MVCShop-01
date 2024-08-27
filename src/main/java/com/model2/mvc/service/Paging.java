@@ -25,6 +25,7 @@ public class Paging {
 
 	
 	// Method
+	// 총 페이지수와 현재페이지수를 통해서 보여줄 시작페이지, 끝페이지, 왼쪽이동, 오른쪽이동 계산
 	public void calculatePage (int totalPage, int currentPage) {
 		
 		System.out.println("Paging().calculatePage");

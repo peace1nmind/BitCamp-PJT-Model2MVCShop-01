@@ -1,5 +1,6 @@
 <%-- 구매목록 화면 --%>
 <%-- listPurchase.do --%>
+<%@page import="com.model2.mvc.service.Paging"%>
 <%@page import="com.model2.mvc.service.product.vo.ProductVO"%>
 <%@page import="com.model2.mvc.service.user.vo.UserVO"%>
 <%@page import="com.model2.mvc.service.purchase.TranCodeMapper"%>
@@ -31,6 +32,9 @@
 	}
 	
 	Map<String, String> tranCodeMap = TranCodeMapper.getInstance().getMap();
+	
+	Paging paging = (Paging) request.getAttribute("paging");
+	paging.calculatePage(totalPage, currentPage);
 	
 %>
     
@@ -194,13 +198,46 @@
 					<tr>
 						<td align="center">
 						
-					<%	for (int i=1; i <= totalPage; i++) { %>
+					<%	if (paging.isLeft()) { %>
 					
-							<a href="/listPurchase.do?page=<%= i %>">
+							<a href="/listProduct.do?page=1">
+								<span>◀</span>
+							</a>
+							
+							&nbsp;
+							
+							<a href="/listProduct.do?page=<%= paging.getStart()-1 %>">
+								<span>이전</span>
+							</a>
+							
+					<%	} %>
+					
+							&nbsp;&nbsp;
+						
+					<%	for (int i=paging.getStart(); i<=paging.getEnd(); i++) { %>
+					
+							<a href="/listPurchase.do?page=<%= i %>" 
+							<%= (currentPage==i)? "style='font-weight: bold; font-size: 15px'" : ""%>>
 								<%= i %>
 							</a> 
 							
-					<%	} %>	
+					<%	} %>
+							
+							&nbsp;&nbsp;
+							
+					<%	if (paging.isRight()) { %>
+							
+							<a href="/listProduct.do?page=<%= paging.getEnd()+1 %>">
+								<span>다음</span>
+							</a>
+							
+							&nbsp;
+							
+							<a href="/listProduct.do?page=<%= totalPage %>">
+								<span>▶</span>
+							</a>
+							
+					<%	} %>
 					
 						</td>
 					</tr>

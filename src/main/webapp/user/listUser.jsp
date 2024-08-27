@@ -1,3 +1,4 @@
+<%@page import="com.model2.mvc.service.Paging"%>
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ page import="java.util.*"  %>
@@ -31,6 +32,10 @@
 	if (searchVO.getSearchKeyword() == null) {
 		searchVO.setSearchKeyword("");
 	}
+	
+	Paging paging = (Paging) request.getAttribute("paging");
+	paging.calculatePage(totalPage, currentPage);
+	
 %>
 
 <html>
@@ -167,18 +172,57 @@ function fncGetUserList(){
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
-		<%
-			for(int i=1;i<=totalPage;i++){
-		%>
+		
+		<%	if (paging.isLeft()) { %>
+					
+			<a href="/listUser.do?page=1
+								&searchCondition=<%= searchVO.getSearchCondition() %>
+								&searchKeyword=<%= searchVO.getSearchKeyword() %>">
+				<span>◀</span>
+			</a>
+			
+			&nbsp;
+			
+			<a href="/listUser.do?page=<%= paging.getStart()-1 %>
+								&searchCondition=<%= searchVO.getSearchCondition() %>
+								&searchKeyword=<%= searchVO.getSearchKeyword() %>">
+				<span>이전</span>
+			</a>
+				
+		<%	} %>
+		
+			&nbsp;&nbsp;
+		
+		<%	for(int i=paging.getStart(); i<=paging.getEnd(); i++) { %>
 			<a href="/listUser.do?page=<%=i%>
 								&searchCondition=<%= searchVO.getSearchCondition() %>
 								&searchKeyword=<%= searchVO.getSearchKeyword() %>" 
 			<%= (currentPage==i)? "style='font-weight: bold; font-size: 15px'" : ""%>>
 				<%=i %>
 			</a>
-		<%
-			}
-		%>	
+		
+		<%	} %>
+		
+			&nbsp;&nbsp;
+				
+		<%	if (paging.isRight()) { %>
+		
+				<a href="/listUser.do?page=<%= paging.getEnd()+1 %>
+								&searchCondition=<%= searchVO.getSearchCondition() %>
+								&searchKeyword=<%= searchVO.getSearchKeyword() %>">
+					<span>다음</span>
+				</a>
+				
+				&nbsp;
+				
+				<a href="/listUser.do?page=<%= totalPage %>
+								&searchCondition=<%= searchVO.getSearchCondition() %>
+								&searchKeyword=<%= searchVO.getSearchKeyword() %>">
+					<span>▶</span>
+				</a>
+				
+		<%	} %>
+		
     	</td>
 	</tr>
 </table>

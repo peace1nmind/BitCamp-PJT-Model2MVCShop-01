@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.Paging;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
 import com.model2.mvc.service.user.vo.UserVO;
@@ -47,6 +48,9 @@ public class ListPurchaseAction extends Action {
 		request.setAttribute("map", map);
 		System.out.println("\tsearchVO= "+searchVO);
 		request.setAttribute("searchVO", searchVO);
+		
+		Paging paging = new Paging(getServletContext());
+		request.setAttribute("paging", paging);
 			
 		return "forward:/purchase/listPurchase.jsp";
 	}
