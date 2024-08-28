@@ -142,3 +142,33 @@ insert into product values (seq_product_prod_no.nextval,'삼성센스','노트북','201
 
 
 commit;
+
+
+
+//== Page 처리을 위한 SQL 구성연습
+
+SELECT user_id , user_name , email
+FROM users
+ORDER BY user_id
+
+currentPage =2
+pageSize = 3   
+4 ~ 6
+
+SELECT inner_table. * ,  ROWNUM AS row_seq
+FROM (	SELECT user_id , user_name , email
+				FROM users
+				ORDER BY user_id ) inner_table
+WHERE ROWNUM <=6;	
+//==>           currentPage * paseSize
+
+
+SELECT * 
+FROM (	SELECT inner_table. * ,  ROWNUM AS row_seq
+				FROM (	SELECT user_id , user_name , email
+								FROM users
+								ORDER BY user_id ) inner_table
+				WHERE ROWNUM <=6 )
+WHERE row_seq BETWEEN 4 AND 6;
+
+//==> (currentPage-1) * paseSize+1           currentPage * paseSize
