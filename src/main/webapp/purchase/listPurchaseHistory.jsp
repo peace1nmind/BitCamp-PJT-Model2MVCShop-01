@@ -16,7 +16,7 @@
 	System.out.println("\n:: listPurchaseHistory.jsp");
 
 	Map<String, Object> map = (Map<String, Object>) request.getAttribute("historyMap");
-	SearchVO searchVO = (SearchVO) request.getAttribute("searchVO");
+	SearchVO searchVO = (SearchVO) request.getAttribute("historySearchVO");
 	List<PurchaseVO> purchaseList = null;
 	
 	int total = 0;

@@ -59,8 +59,18 @@ public class ListPurchaseAction extends Action {
 		request.setAttribute("paging", paging);
 		
 		// listPurchaseHistory를 위한 로직
-		Map<String, Object> historyMap = service.getPurchaseList(searchVO, user.getUserId(), "4", true);
+		SearchVO historySearchVO = new SearchVO(getServletContext());
+		
+		if (request.getParameter("historyPage") != null) {
+			int historyPage = Integer.parseInt(request.getParameter("historyPage"));
+			System.out.println("\thistoryPage= "+historyPage);
+			searchVO.setPage(historyPage);
+			
+		}
+		
+		Map<String, Object> historyMap = service.getPurchaseList(historySearchVO, user.getUserId(), "4", true);
 		request.setAttribute("historyMap", historyMap);
+		request.setAttribute("historySearchVO", historySearchVO);
 			
 		return "forward:/purchase/listPurchase.jsp";
 	}

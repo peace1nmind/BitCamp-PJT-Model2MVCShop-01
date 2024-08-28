@@ -141,7 +141,9 @@ public class ProductDAO extends AbstractDAO {
 		List<ProductVO> list = new ArrayList<ProductVO>();
 		
 		String sql = "SELECT * FROM "
-					+ "(SELECT ROWNUM rn, product.* FROM product ";
+					+ "(SELECT ROWNUM rn, product.* "
+					+ "FROM product "
+					+ "WHERE pro_tran_code = '1' ";
 		
 		String searchConditon = searchVO.getSearchCondition();
 		String searchKeyword = searchVO.getSearchKeyword();
@@ -153,17 +155,17 @@ public class ProductDAO extends AbstractDAO {
 			
 			switch ((searchConditon==null)? "0" : searchConditon) {
 			case "0":	// 상품번호로 검색
-				sql += String.format("WHERE %s LIKE \'%%%s%%\' ", condition, searchKeyword);
+				sql += String.format("AND %s LIKE \'%%%s%%\' ", condition, searchKeyword);
 				break;
 				
 			case "1":	// 상품명으로 검색
 				condition = "prod_name";
-				sql += String.format("WHERE %s LIKE \'%%%s%%\' ", condition, searchKeyword);
+				sql += String.format("AND %s LIKE \'%%%s%%\' ", condition, searchKeyword);
 				break;
 				
 			case "2":	// 상품가격으로 검색
 				condition = "price";
-				sql += String.format("WHERE %s >= %s ", condition, searchKeyword);
+				sql += String.format("AND %s >= %s ", condition, searchKeyword);
 				break;
 			}
 		}
