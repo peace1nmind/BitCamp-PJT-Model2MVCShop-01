@@ -101,7 +101,7 @@ public class ProductDAO extends AbstractDAO {
 			rs = stmt.executeQuery();
 			System.out.println("\tstmt.executeQuery()");
 			
-			int lastRow = getCount("product");
+			int lastRow = getTotal("product");
 			rs.absolute(lastRow);
 			productVO.setProdNo(rs.getInt("prod_no"));
 			productVO.setProdName(rs.getString("prod_name"));
@@ -173,15 +173,7 @@ public class ProductDAO extends AbstractDAO {
 		System.out.println("\tSQL= "+sql);
 		
 		try {
-			stmt = con.prepareStatement(sql, 
-										ResultSet.TYPE_SCROLL_INSENSITIVE, 
-										ResultSet.CONCUR_UPDATABLE);
-			
-			rs = stmt.executeQuery();
-			System.out.println("\tstmt.executeQuery()");
-			
-			rs.last();
-			int total = rs.getRow();
+			int total = getCounts(sql);
 			System.out.println("\ttotalRow= "+total);
 			map.put("count", new Integer(total));
 			

@@ -36,6 +36,10 @@
 	Paging paging = (Paging) request.getAttribute("paging");
 	paging.calculatePage(totalPage, currentPage);
 	
+	request.setAttribute("searchVO", searchVO);
+	request.setAttribute("paging", paging);
+	request.setAttribute("historyMap", (Map<String, Object>) request.getAttribute("historyMap"));
+	
 %>
     
 <!DOCTYPE html>
@@ -255,6 +259,7 @@
 		
 		<%	System.out.println("\tinclude ¹ß»ý: listPurchaseHistory.jsp"); %>
 		<jsp:include page="listPurchaseHistory.jsp"></jsp:include>
+		<%--<%@ include file="listPurchaseHistory.jsp" %>--%>
 		
 		
 		

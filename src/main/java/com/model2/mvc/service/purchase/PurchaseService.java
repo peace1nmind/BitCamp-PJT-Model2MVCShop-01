@@ -14,7 +14,9 @@ public interface PurchaseService {
 	
 	public PurchaseVO getPurchaseByProd(int prodNo);
 	
-	public HashMap<String, Object> getPurchaseList(SearchVO searchVO, String tranCode);
+	public HashMap<String, Object> getPurchaseList(SearchVO searchVO, String buyerId);
+	
+	public HashMap<String, Object> getPurchaseList(SearchVO searchVO, String buyerId, String tranCode, boolean over);
 	
 	public HashMap<String, Object> getSaleList(SearchVO searchVO);
 	

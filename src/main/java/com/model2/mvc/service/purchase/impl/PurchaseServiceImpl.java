@@ -59,6 +59,13 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return purchaseDAO.getPurchaseList(searchVO, buyerId);
 	}
 	
+	// tranCode조건에 따른 구매목록 보기를 위한 BL
+	@Override
+	public HashMap<String, Object> getPurchaseList(SearchVO searchVO, String buyerId, String tranCode, boolean over) {
+		
+		return purchaseDAO.getPurchaseList(searchVO, buyerId, tranCode, over);
+	}
+	
 	// 판매목록 보기를 위한 BL
 	@Override
 	public HashMap<String, Object> getSaleList(SearchVO searchVO) {

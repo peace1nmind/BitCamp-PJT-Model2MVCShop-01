@@ -12,11 +12,13 @@ public abstract class AbstractDAO {
 
 	// Field
 
+
 	// Constructor
 	public AbstractDAO() {
 		System.out.println("\ncom.model2.mvc.common.dao\nAbstractDAO");
 	}
 
+	
 	// Method
 	public Connection connect() {
 		
@@ -110,9 +112,9 @@ public abstract class AbstractDAO {
 	}
 	
 	/* 전체 ROW의 개수 반환하는 함수 DAO에서 LIST 얻을 때 MAP에 넣던 기능을 분리 */
-	public int getCount(String table){
+	public int getTotal(String table){
 		
-		System.out.println("AbstractDAO().getCount(table)");
+		System.out.println("AbstractDAO().getTotal(table)");
 		
 		int total = 0;
 		
@@ -146,6 +148,40 @@ public abstract class AbstractDAO {
 		
 		return total;
 	}
+	
+	
+	public int getCounts(String sql) {
+		
+		System.out.println("AbstractDAO().getCount(sql)");
+		
+		int count = 0;
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = con.prepareStatement(sql,
+										ResultSet.TYPE_SCROLL_INSENSITIVE,
+										ResultSet.CONCUR_UPDATABLE);
+			
+			rs = stmt.executeQuery();
+			rs.last();
+			count = rs.getRow();
+			
+			System.out.println("\tcount= "+count);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} 
+		
+		return count;
+	}
+	
 
 }
 // class end

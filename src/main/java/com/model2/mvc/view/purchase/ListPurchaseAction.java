@@ -39,10 +39,16 @@ public class ListPurchaseAction extends Action {
 			
 		}
 		
+		// listPurchase를 위한 로직
 		PurchaseService service = new PurchaseServiceImpl();
 		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("user") == null) {
+			return "redirect:/user/loginView.jsp";
+		}
+		
 		UserVO user = (UserVO) session.getAttribute("user");
-		Map<String, Object> map = service.getPurchaseList(searchVO, user.getUserId());
+		Map<String, Object> map = service.getPurchaseList(searchVO, user.getUserId(), "3", false);
 		
 		System.out.println("\tmap= "+map);
 		request.setAttribute("map", map);
@@ -51,8 +57,38 @@ public class ListPurchaseAction extends Action {
 		
 		Paging paging = new Paging(getServletContext());
 		request.setAttribute("paging", paging);
+		
+		// listPurchaseHistory를 위한 로직
+		Map<String, Object> historyMap = service.getPurchaseList(searchVO, user.getUserId(), "4", true);
+		request.setAttribute("historyMap", historyMap);
 			
 		return "forward:/purchase/listPurchase.jsp";
+	}
+	
+	
+	public void executeAction(	HttpServletRequest request, HttpServletResponse response, SearchVO searchVO)
+								throws Exception {
+		
+		System.out.println("\n>> ListPurchaseAction.executeAction");
+		
+		if (request.getParameter("page") != null) {
+			int page = Integer.parseInt(request.getParameter("page"));
+			System.out.println("\tpage= "+page);
+			searchVO.setPage(page);
+			
+		}
+		
+		// listPurchase를 위한 로직
+		PurchaseService service = new PurchaseServiceImpl();
+		HttpSession session = request.getSession();
+		UserVO user = (UserVO) session.getAttribute("user");
+		Map<String, Object> map = service.getPurchaseList(searchVO, user.getUserId(), "3", false);
+		
+		System.out.println("\tmap= "+map);
+		request.setAttribute("map", map);
+		System.out.println("\tsearchVO= "+searchVO);
+		request.setAttribute("searchVO", searchVO);
+		
 	}
 
 }

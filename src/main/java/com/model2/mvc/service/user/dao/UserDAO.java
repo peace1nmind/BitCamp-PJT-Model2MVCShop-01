@@ -43,7 +43,7 @@ public class UserDAO extends AbstractDAO {
 		// regDate default= SYSDATE
 		stmt.executeUpdate();
 		
-		con.close();
+		close(con, stmt);
 	}
 
 	
@@ -72,7 +72,7 @@ public class UserDAO extends AbstractDAO {
 			userVO.setRegDate(rs.getDate("REG_DATE"));
 		}
 		
-		con.close();
+		close(con, stmt, rs);
 
 		return userVO;
 	}
@@ -201,7 +201,7 @@ public class UserDAO extends AbstractDAO {
 		stmt.setString(5, userVO.getUserId());
 		stmt.executeUpdate();
 		
-		con.close();
+		close(con, stmt);
 	}
 	
 	

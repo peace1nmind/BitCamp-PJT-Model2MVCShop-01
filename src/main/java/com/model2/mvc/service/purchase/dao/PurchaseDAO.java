@@ -210,28 +210,19 @@ public class PurchaseDAO extends AbstractDAO {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		List<PurchaseVO> list = new ArrayList<PurchaseVO>();
 		
-		String sql = "SELECT * FROM "
-					+"(SELECT ROWNUM rn, transaction.* "
-					+ "FROM transaction WHERE buyer_id='"+buyerId.trim()+"' "
-					+ "ORDER BY order_date DESC) ";
+		String sql = "SELECT vt1.* FROM "
+					+"(SELECT ROWNUM rn, vt.* FROM "
+					+	"(SELECT * "
+					+ 	"FROM transaction WHERE buyer_id='"+buyerId.trim()+"' "
+					+ 	"ORDER BY order_date DESC) vt) vt1 ";
 		System.out.println("\tSQL= "+sql);
 		
 		try {
-			stmt = con.prepareStatement(sql, 
-										ResultSet.TYPE_SCROLL_INSENSITIVE, 
-										ResultSet.CONCUR_UPDATABLE);
-			
-			rs = stmt.executeQuery();
-			System.out.println("\tstmt.executeQuery()");
-			
-			rs.last();
-			int total = rs.getRow();
+			int total = getCounts(sql);
 			System.out.println("\ttotalRow= "+total);
 			
 			// map에 "count"값 추가 : 전체 레코드의 수
 			map.put("count", new Integer(total));
-			
-			close(stmt, rs);
 			
 			sql += "WHERE rn BETWEEN ? AND ? ";
 			System.out.println("\tSQL= "+sql);
@@ -279,12 +270,118 @@ public class PurchaseDAO extends AbstractDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			
+		} finally {
+			close(con, stmt, rs);
+			
 		}
 		
 		System.out.println("\tlist.size() : "+ list.size());
 		// 페이지에 해당하는 UserVO들을 map에 ArrayList타입으로 넣음
 		map.put("list", list);
 		System.out.println("\tmap().size() : "+ map.size());
+		
+		return map;	
+	}
+	
+	// 특정 tranCode를 가지고 있는 list 가져오는 DBMS
+	public HashMap<String, Object> getPurchaseList(SearchVO searchVO, String buyerId, String tranCode, boolean over) {
+		
+		System.out.println("\n\n=============================================");
+		System.out.println("PurchaseDAO().getPurchaseList(searchVO, byuerId, tranCode, over)");
+		System.out.println("\tSearchVO= "+searchVO);
+		System.out.println("\tbuyerId= "+buyerId);
+		System.out.println("\ttranCode= "+tranCode);
+		System.out.println("\tover?= "+over);
+		
+		Connection con = connect();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<PurchaseVO> list = new ArrayList<PurchaseVO>();
+		
+		String sql = "SELECT vt1.* FROM "
+					+"(SELECT ROWNUM rn, vt.* FROM "
+					+	"(SELECT * "
+					+ 	"FROM transaction "
+					+ 	"WHERE buyer_id='"+buyerId.trim()+"' "
+					+ 	"AND tran_status_code"+((over)? " >= " : " <= ")+"'"+tranCode.trim()+"' "
+					+ 	"ORDER BY order_date DESC) vt) vt1 ";
+		System.out.println("\tSQL= "+sql);
+		
+		try {
+			String countSql = "SELECT COUNT(*) FROM (" + sql + ")";
+			
+			stmt = con.prepareStatement(countSql);
+			rs = stmt.executeQuery();
+			rs.next();
+			int total = rs.getInt("COUNT(*)");
+			System.out.println("\ttotalRow= "+total);
+			
+			close(con, stmt, rs);
+			
+			con = connect();
+			
+			// map에 "count"값 추가 : 전체 레코드의 수
+			map.put("count", new Integer(total));
+			
+			sql += "WHERE rn BETWEEN ? AND ? ";
+			System.out.println("\tSQL= "+sql);
+			
+			stmt = con.prepareStatement(sql);
+			
+			int startRow = (total==0)? 0 :(searchVO.getPage() - 1) * searchVO.getPageUnit() + 1;
+			int endRow = searchVO.getPage() * searchVO.getPageUnit();
+			
+			if (endRow > total) {
+				endRow = total;
+				
+			}
+			
+			stmt.setInt(1, startRow);
+			stmt.setInt(2, endRow);
+			System.out.println("\tstartRow= "+startRow+", endRow= "+endRow);
+			
+			rs = stmt.executeQuery();
+			System.out.println("\tstmt.executeQuery()");
+
+			while (rs.next()) {
+				PurchaseVO purchaseVO = new PurchaseVO();
+				purchaseVO.setTranNo(rs.getInt("tran_no"));
+				purchaseVO.setPurchaseProd(productService.getProduct(rs.getInt("prod_no")));
+				purchaseVO.setBuyer(userService.getUser(rs.getString("buyer_id")));
+				purchaseVO.setPaymentOption(rs.getString("payment_option"));
+				purchaseVO.setReceiverName(rs.getString("receiver_name"));
+				purchaseVO.setReceiverPhone(rs.getString("receiver_phone"));
+				purchaseVO.setDlvyAddr(rs.getString("dlvy_addr"));
+				purchaseVO.setDlvyRequest(rs.getString("dlvy_request"));
+				purchaseVO.setTranCode(rs.getString("tran_status_code"));
+				purchaseVO.setOrderDate(rs.getDate("order_date"));
+				System.out.println("\tdlvy_date= "+rs.getString("dlvy_date"));
+				purchaseVO.setDlvyDate(rs.getString("dlvy_date").split(" ")[0]);
+				
+				System.out.println(purchaseVO);
+				
+				list.add(purchaseVO);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(con, stmt, rs);
+			
+		}
+		
+		System.out.println("\tlist.size() : "+ list.size());
+		// 페이지에 해당하는 UserVO들을 map에 ArrayList타입으로 넣음
+		map.put("list", list);
+		System.out.println("\tmap().size() : "+ map.size());
+		
+		System.out.println("=============================================\n\n");
 		
 		return map;	
 	}
